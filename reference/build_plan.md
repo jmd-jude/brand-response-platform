@@ -92,8 +92,8 @@ Create these files (I'll provide code for each):
 
 - [x] SampleDataPreview working
 - [x] BusinessContextForm functional
-- [ ] VariableSelection displaying
-- [ ] DataPreview showing enriched data
+- [X] VariableSelection displaying
+- [X] DataPreview showing enriched data
 - [ ] InsightsGenerator calling API
 - [ ] ReportViewer rendering markdown
 
