@@ -112,7 +112,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 - **Higher profit margins** on products/services positioned as premium offerings
 
 ---
-**Brand Response Customer Intelligence Analysis**  
+**BrandIntel Lab Customer Intelligence Analysis**  
 *Report generated from ${variables.length} strategic variables*`;
 }
 

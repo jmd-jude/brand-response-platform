@@ -134,7 +134,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 - **Higher profit margins** on products/services positioned as premium offerings
 
 ---
-**Brand Response Customer Intelligence Analysis**  
+**BrandIntel Lab Customer Intelligence Analysis**  
 *Report generated from ${variables.length} strategic variables*`;
   };
 
@@ -241,7 +241,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       {/* Insights Report */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
-          <h3 className="text-xl font-bold text-gray-900">Customer Intelligence Report</h3>
+          <h3 className="text-xl font-bold text-gray-900">BrandIntel Lab Report</h3>
           <p className="text-sm text-gray-600 mt-1">{businessContext.businessName} • {businessContext.industry}</p>
         </div>
         
@@ -280,7 +280,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
         <div className="px-8 py-4 bg-gray-50 border-t border-gray-200">
           <div className="flex justify-between items-center text-sm text-gray-600">
             <div>
-              <strong>Brand Response</strong> Customer Intelligence Analysis
+              <strong>BrandIntel</strong> Customer Intelligence Analysis
             </div>
             <div>
               {selectedVariables.length} variables analyzed • 500 customer records processed

@@ -42,7 +42,7 @@ export default function DemoPage() {
       <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div className="text-2xl font-bold">Brand Response</div>
+            <div className="text-2xl font-bold">BrandIntel Lab</div>
             <nav className="hidden md:flex space-x-8">
               <Link href="/" className="text-white/90 hover:text-white transition-colors">
                 Home
