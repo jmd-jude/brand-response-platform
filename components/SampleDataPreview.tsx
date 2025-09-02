@@ -52,8 +52,8 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
           Customer Data Analysis
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          We'll analyze your customer data to reveal insights that inform brand strategy. 
-          For this demo, we'll use sample coffee shop customer data.
+          We&apos;ll analyze your customer data to reveal insights that inform brand strategy. 
+          For this demo, we&apos;ll use sample coffee shop customer data.
         </p>
       </div>
 
@@ -70,7 +70,7 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
                 Sample Customer Data
               </h3>
               <p className="text-gray-600 text-sm">
-                500 customer records from "Roasted Bean Coffee Co."
+                500 customer records from &quot;Roasted Bean Coffee Co.&quot;
               </p>
             </div>
 
