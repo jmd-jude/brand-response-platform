@@ -9,12 +9,12 @@ export default function Home() {
           <div className="flex justify-between items-center py-6">
             <div className="text-2xl font-bold">Brand Response</div>
             <nav className="hidden md:flex space-x-8">
-              <Link href="#features" className="text-white/90 hover:text-white transition-colors">
-                Features
-              </Link>
-              <Link href="#how-it-works" className="text-white/90 hover:text-white transition-colors">
+              <a href="#how-it-works" className="text-white/90 hover:text-white transition-colors">
                 How It Works
-              </Link>
+              </a>
+              <a href="#results" className="text-white/90 hover:text-white transition-colors">
+                Results
+              </a>
               <Link href="/demo" className="bg-white/20 px-4 py-2 rounded-lg hover:bg-white/30 transition-colors">
                 Try Demo
               </Link>
@@ -36,16 +36,13 @@ export default function Home() {
               Get enterprise-level customer intelligence at small business scale.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex justify-center mb-12">
               <Link 
                 href="/demo"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 Try Live Demo →
               </Link>
-              <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg">
-                Watch Overview
-              </button>
             </div>
 
             {/* Social Proof */}
@@ -72,7 +69,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Stop Guessing. Start Growing.
+              Stop Guessing. Start Knowing.
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Most small businesses make brand decisions based on assumptions. We give you data.
@@ -108,7 +105,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
+      <section id="how-it-works" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -138,7 +135,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Instant Analysis</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. AI-Powered Analysis</h3>
               <p className="text-gray-600">
                 Smart analytics selects strategic variables and enhances records with 100+ demographic, lifestyle, and behavioral data points.
               </p>
@@ -160,7 +157,7 @@ export default function Home() {
       </section>
 
       {/* Results Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section id="results" className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
