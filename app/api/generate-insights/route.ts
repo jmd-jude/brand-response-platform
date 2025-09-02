@@ -58,63 +58,6 @@ Focus on:
 Use professional markdown formatting with headers, tables, and bullet points.`;
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const { businessContext, selectedVariables } = await request.json();
-
-    if (!businessContext || !selectedVariables) {
-      return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
-    }
-
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-      console.log('No API key found, using fallback insights');
-      return NextResponse.json({
-        insights: generateFallbackInsights(businessContext, selectedVariables)
-      });
-    }
-
-    const prompt = generateInsightsPrompt(businessContext, selectedVariables);
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4096,
-        temperature: 0.7,
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Anthropic API error: ${response.status} - ${errorText}`);
-      throw new Error(`Anthropic API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const insights = data.content[0].text.trim();
-
-    return NextResponse.json({ insights });
-
-  } catch (error) {
-    console.error('Error generating insights:', error);
-    return NextResponse.json({
-      insights: generateFallbackInsights(businessContext, selectedVariables)
-    });
-  }
-}
-
 function generateFallbackInsights(businessContext: BusinessContext, variables: Variable[]): string {
   return `# Customer Intelligence Report
 ## ${businessContext.businessName}
@@ -171,4 +114,72 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 ---
 **Brand Response Customer Intelligence Analysis**  
 *Report generated from ${variables.length} strategic variables*`;
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // Parse the request body first
+    const body = await request.json();
+    const { businessContext, selectedVariables } = body;
+
+    if (!businessContext || !selectedVariables) {
+      return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
+    }
+
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      console.log('No API key found, using fallback insights');
+      return NextResponse.json({
+        insights: generateFallbackInsights(businessContext, selectedVariables)
+      });
+    }
+
+    const prompt = generateInsightsPrompt(businessContext, selectedVariables);
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4096,
+        temperature: 0.7,
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Anthropic API error: ${response.status} - ${errorText}`);
+      throw new Error(`Anthropic API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const insights = data.content[0].text.trim();
+
+    return NextResponse.json({ insights });
+
+  } catch (error) {
+    console.error('Error generating insights:', error);
+    // Use fallback if we have the required data
+    try {
+      const body = await request.json();
+      const { businessContext, selectedVariables } = body;
+      return NextResponse.json({
+        insights: generateFallbackInsights(businessContext, selectedVariables)
+      });
+    } catch {
+      return NextResponse.json({ 
+        error: 'Failed to generate insights' 
+      }, { status: 500 });
+    }
+  }
 }

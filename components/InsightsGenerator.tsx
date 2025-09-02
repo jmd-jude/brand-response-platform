@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { BusinessContext } from './BusinessContextForm';
 import { Variable } from './VariableSelection';
 
@@ -84,37 +86,42 @@ export default function InsightsGenerator({ businessContext, selectedVariables, 
 
 ### Executive Summary
 
-Analysis of your customer data reveals significant opportunities to refine brand positioning and targeting strategy. Key findings challenge several current assumptions about your customer base.
+Analysis of your customer data reveals significant opportunities to refine brand positioning and targeting strategy. Key findings challenge several current assumptions about your customer base, particularly around age demographics and income levels.
 
-### Key Customer Reality vs. Assumptions
+### Customer Reality vs. Assumptions
 
 | Aspect | Your Assumption | Data Reality | Strategic Implication |
 |--------|----------------|--------------|---------------------|
 | **Primary Age Group** | Young professionals (25-35) | Broader range (30-55, 68% of customers) | Expand messaging to include established professionals |
-| **Income Level** | Mid-range earners ($50-75K) | Higher income brackets (58% earn $75K+) | Opportunity for premium positioning |
+| **Income Level** | Mid-range earners | Higher income brackets (58% earn $75K+) | Opportunity for premium positioning |
 | **Lifestyle Focus** | Convenience-oriented | Quality and experience-focused (73%) | Emphasize craftsmanship over speed |
 | **Geographic Distribution** | Urban-focused | Mixed urban/suburban (45% suburban) | Consider suburban market expansion |
 
 ### Strategic Recommendations
 
 #### 1. Brand Positioning Adjustment
-**Current:** "${context.brandPositioning}"
-**Recommended:** "Premium ${context.industry.toLowerCase()} experience for discerning professionals who value quality craftsmanship"
+**Current:** "${context.brandPositioning}"  
+**Recommended:** Premium ${context.industry.toLowerCase()} experience for discerning professionals who value quality craftsmanship
 
 **Rationale:** Customer data shows higher income levels and quality orientation than assumed.
 
-#### 2. Target Audience Refinement
+#### 2. Target Audience Refinement  
 Shift focus from young urban professionals to "Quality-conscious professionals aged 30-55 with household incomes above $75K."
 
 #### 3. Messaging Strategy
 - **Emphasize:** Quality, craftsmanship, experience
-- **De-emphasize:** Speed, convenience, budget-friendly
+- **De-emphasize:** Speed, convenience, budget-friendly  
 - **New themes:** Sophistication, tradition, expertise
 
+#### 4. Premium Pricing Opportunity
+Test 15-25% price increases on core products/services, supported by enhanced quality positioning.
+
 ### Most Surprising Discovery
+
 Your customer base is **42% more affluent** and **15 years older on average** than your current brand positioning targets. This represents significant untapped potential for premium positioning and pricing strategy.
 
 ### Immediate Action Items
+
 1. **Update website copy** to emphasize quality and craftsmanship over convenience
 2. **Refresh visual identity** to appeal to more sophisticated demographic  
 3. **Test premium pricing** on select products/services
@@ -123,93 +130,67 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 
 ### Expected Impact
 - **15-25% increase** in average transaction value through premium positioning
-- **Improved customer retention** through better brand-customer alignment
+- **Improved customer retention** through better brand-customer alignment  
 - **Higher profit margins** on products/services positioned as premium offerings
 
 ---
 **Brand Response Customer Intelligence Analysis**  
-*Report generated from ${variables.length} strategic variables across ${Array.from(new Set(variables.map(v => v.category))).length} categories*`;
+*Report generated from ${variables.length} strategic variables*`;
   };
 
   if (isLoading) {
     return (
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto p-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
             Generating Strategic Insights
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Smart analytics is analyzing your enriched customer data to generate actionable brand strategy recommendations...
+          <p className="text-gray-600 mb-6">
+            Smart analytics is analyzing your customer data and identifying key strategic 
+            opportunities for brand positioning and growth.
           </p>
+          
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-8">
+            <div 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          
+          <div className="text-sm text-gray-500 mb-8">
+            {progress}% complete
+          </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
-          {/* Progress Bar */}
-          <div className="mb-8">
-            <div className="flex justify-between text-sm font-medium text-gray-700 mb-2">
-              <span>Analysis Progress</span>
-              <span>{Math.round(progress)}%</span>
+        {/* Progress Steps */}
+        <div className="max-w-md mx-auto space-y-4">
+          <div className={`flex items-center transition-opacity duration-500 ${progress > 10 ? 'opacity-100' : 'opacity-50'}`}>
+            <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 20 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+              {progress > 20 ? '✓' : '1'}
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
+            <span className="text-gray-700">Processing customer demographics and behaviors</span>
           </div>
-
-          {/* Analysis Steps */}
-          <div className="space-y-4 mb-8">
-            <div className={`flex items-center transition-opacity duration-500 ${progress > 10 ? 'opacity-100' : 'opacity-50'}`}>
-              <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 20 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                {progress > 20 ? '✓' : '1'}
-              </div>
-              <span className="text-gray-700">Processing customer demographics and behaviors</span>
+          
+          <div className={`flex items-center transition-opacity duration-500 ${progress > 30 ? 'opacity-100' : 'opacity-50'}`}>
+            <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 45 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+              {progress > 45 ? '✓' : '2'}
             </div>
-            
-            <div className={`flex items-center transition-opacity duration-500 ${progress > 30 ? 'opacity-100' : 'opacity-50'}`}>
-              <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 45 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                {progress > 45 ? '✓' : '2'}
-              </div>
-              <span className="text-gray-700">Comparing assumptions vs. data reality</span>
-            </div>
-            
-            <div className={`flex items-center transition-opacity duration-500 ${progress > 50 ? 'opacity-100' : 'opacity-50'}`}>
-              <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 65 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                {progress > 65 ? '✓' : '3'}
-              </div>
-              <span className="text-gray-700">Identifying strategic positioning opportunities</span>
-            </div>
-            
-            <div className={`flex items-center transition-opacity duration-500 ${progress > 70 ? 'opacity-100' : 'opacity-50'}`}>
-              <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 85 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                {progress > 85 ? '✓' : '4'}
-              </div>
-              <span className="text-gray-700">Generating actionable recommendations</span>
-            </div>
+            <span className="text-gray-700">Comparing assumptions vs. data reality</span>
           </div>
-
-          {/* Current Analysis Context */}
-          <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="font-semibold text-gray-900 mb-3">Analysis Context:</h4>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600">Business:</span>
-                <span className="ml-2 font-medium">{businessContext.businessName}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Industry:</span>
-                <span className="ml-2 font-medium">{businessContext.industry}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Variables:</span>
-                <span className="ml-2 font-medium">{selectedVariables.length} selected</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Records:</span>
-                <span className="ml-2 font-medium">500 processed</span>
-              </div>
+          
+          <div className={`flex items-center transition-opacity duration-500 ${progress > 50 ? 'opacity-100' : 'opacity-50'}`}>
+            <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 65 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+              {progress > 65 ? '✓' : '3'}
             </div>
+            <span className="text-gray-700">Identifying strategic positioning opportunities</span>
+          </div>
+          
+          <div className={`flex items-center transition-opacity duration-500 ${progress > 70 ? 'opacity-100' : 'opacity-50'}`}>
+            <div className={`w-6 h-6 rounded-full mr-4 flex items-center justify-center ${progress > 85 ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+              {progress > 85 ? '✓' : '4'}
+            </div>
+            <span className="text-gray-700">Creating actionable recommendations</span>
           </div>
         </div>
       </div>
@@ -217,13 +198,15 @@ Your customer base is **42% more affluent** and **15 years older on average** th
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6">
+      {/* Page Header */}
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Strategic Customer Intelligence Report
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Smart analytics has analyzed your customer data and identified key strategic opportunities for brand positioning and growth.
+        <p className="text-gray-600">
+          Smart analytics has analyzed your customer data and identified key strategic 
+          opportunities for brand positioning and growth.
         </p>
       </div>
 
@@ -256,20 +239,41 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       </div>
 
       {/* Insights Report */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
           <h3 className="text-xl font-bold text-gray-900">Customer Intelligence Report</h3>
           <p className="text-sm text-gray-600 mt-1">{businessContext.businessName} • {businessContext.industry}</p>
         </div>
         
         <div className="px-8 py-8">
+          {/* Use ReactMarkdown for proper rendering */}
           <div className="prose prose-lg max-w-none">
-            <div dangerouslySetInnerHTML={{ 
-              __html: insights.replace(/\n/g, '<br>').replace(/### /g, '<h3>').replace(/## /g, '<h2>').replace(/# /g, '<h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\|(.*?)\|/g, '<table>$1</table>') // Basic table handling
-            }} />
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ node, ...props }) => <h1 className="text-3xl font-bold text-gray-900 mb-6 pb-4 border-b-2 border-blue-600" {...props} />,
+                h2: ({ node, ...props }) => <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-4" {...props} />,
+                h3: ({ node, ...props }) => <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3" {...props} />,
+                h4: ({ node, ...props }) => <h4 className="text-lg font-semibold text-gray-700 mt-4 mb-2" {...props} />,
+                table: ({ node, ...props }) => (
+                  <div className="overflow-x-auto my-6">
+                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg" {...props} />
+                  </div>
+                ),
+                thead: ({ node, ...props }) => <thead className="bg-gray-50" {...props} />,
+                th: ({ node, ...props }) => <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" {...props} />,
+                td: ({ node, ...props }) => <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-t border-gray-200" {...props} />,
+                p: ({ node, ...props }) => <p className="mb-4 text-gray-700 leading-relaxed" {...props} />,
+                ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-2 mb-4 ml-4" {...props} />,
+                ol: ({ node, ...props }) => <ol className="list-decimal list-inside space-y-2 mb-4 ml-4" {...props} />,
+                li: ({ node, ...props }) => <li className="text-gray-700" {...props} />,
+                strong: ({ node, ...props }) => <strong className="font-semibold text-gray-900" {...props} />,
+                em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
+                hr: ({ node, ...props }) => <hr className="my-8 border-gray-200" {...props} />,
+              }}
+            >
+              {insights}
+            </ReactMarkdown>
           </div>
         </div>
 
@@ -289,21 +293,21 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       <div className="flex justify-center space-x-4 mt-8">
         <button
           onClick={() => window.location.reload()}
-          className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+          className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
         >
           Start New Analysis
         </button>
         <button
           onClick={() => {
             const element = document.createElement('a');
-            const file = new Blob([insights], {type: 'text/plain'});
+            const file = new Blob([insights], {type: 'text/markdown'});
             element.href = URL.createObjectURL(file);
-            element.download = `${businessContext.businessName}_Intelligence_Report.txt`;
+            element.download = `${businessContext.businessName}_Intelligence_Report.md`;
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
           }}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-sm"
         >
           Download Report
         </button>

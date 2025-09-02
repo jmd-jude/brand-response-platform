@@ -94,8 +94,8 @@ Create these files (I'll provide code for each):
 - [x] BusinessContextForm functional
 - [X] VariableSelection displaying
 - [X] DataPreview showing enriched data
-- [ ] InsightsGenerator calling API
-- [ ] ReportViewer rendering markdown
+- [X] InsightsGenerator calling API
+- [X] ReportViewer rendering markdown
 
 **Polish:**
 

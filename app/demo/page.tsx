@@ -5,11 +5,13 @@ import SampleDataPreview from '../../components/SampleDataPreview';
 import BusinessContextForm, { BusinessContext } from '../../components/BusinessContextForm';
 import VariableSelection, { Variable } from '../../components/VariableSelection';
 import DataPreview from '../../components/DataPreview';
+import InsightsGenerator from '../../components/InsightsGenerator';
 
 export default function DemoPage() {
   const [currentStep, setCurrentStep] = useState('sample-data');
   const [businessContext, setBusinessContext] = useState<BusinessContext | null>(null);
   const [selectedVariables, setSelectedVariables] = useState<Variable[]>([]);
+  const [insights, setInsights] = useState<string>('');
 
   const handleDataLoaded = () => {
     setCurrentStep('business-context');
@@ -27,6 +29,11 @@ export default function DemoPage() {
 
   const handleDataPreviewContinue = () => {
     setCurrentStep('insights-generation');
+  };
+
+  const handleInsightsComplete = (generatedInsights: string) => {
+    setInsights(generatedInsights);
+    // Stay on insights-generation step to show the report
   };
 
   return (
@@ -160,15 +167,12 @@ export default function DemoPage() {
           />
         )}
         
-        {currentStep === 'insights-generation' && (
-          <div className="max-w-4xl mx-auto p-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Strategic Insights
-            </h2>
-            <p className="text-gray-600 mb-4">
-              (Coming next - AI-generated strategic insights)
-            </p>
-          </div>
+        {currentStep === 'insights-generation' && businessContext && (
+          <InsightsGenerator 
+            businessContext={businessContext}
+            selectedVariables={selectedVariables}
+            onComplete={handleInsightsComplete}
+          />
         )}
       </main>
     </div>
