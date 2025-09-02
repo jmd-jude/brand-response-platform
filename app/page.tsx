@@ -41,7 +41,7 @@ export default function Home() {
                 href="/demo"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Try Live Demo →
+                See Prototype →
               </Link>
             </div>
 
@@ -69,10 +69,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Stop Guessing. Start Knowing.
+              Stop Guessing. Start Growing.
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Most small businesses make brand decisions based on assumptions. We give you data.
+              Many strategic branding decisions are based on assumptions. We fix that.
             </p>
           </div>
 
@@ -135,9 +135,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Tailored Analytics</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Enterprise-grade Analytics</h3>
               <p className="text-gray-600">
-                Smart analytics selects strategically relevant variables and enhances records with 100+ demographic, lifestyle, and behavioral data points.
+                Our smart analytics system identifies strategically relevant variables and enhances records with demographic, lifestyle, and behavioral data points.
               </p>
             </div>
 
@@ -149,7 +149,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Strategic Recommendations</h3>
               <p className="text-gray-600">
-                Receive professional brand intelligence reports comparing assumptions to reality with actionable repositioning strategies.
+                We produce professional, easy-to-read brand intelligence reports comparing assumptions to reality with actionable positioning strategies.
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function Home() {
             Try the Live Demo →
           </Link>
           <p className="text-sm text-gray-500 mt-4">
-            No signup required • Real customer intelligence in 5 minutes
+            No signup required • Real customer intelligence in minutes
           </p>
         </div>
       </section>
