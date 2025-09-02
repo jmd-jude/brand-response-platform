@@ -1,6 +1,8 @@
+// Fix 1: app/demo/page.tsx - Remove unused insights variable and fix Link
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import SampleDataPreview from '../../components/SampleDataPreview';
 import BusinessContextForm, { BusinessContext } from '../../components/BusinessContextForm';
 import VariableSelection, { Variable } from '../../components/VariableSelection';
@@ -11,7 +13,6 @@ export default function DemoPage() {
   const [currentStep, setCurrentStep] = useState('sample-data');
   const [businessContext, setBusinessContext] = useState<BusinessContext | null>(null);
   const [selectedVariables, setSelectedVariables] = useState<Variable[]>([]);
-  const [insights, setInsights] = useState<string>('');
 
   const handleDataLoaded = () => {
     setCurrentStep('business-context');
@@ -31,9 +32,8 @@ export default function DemoPage() {
     setCurrentStep('insights-generation');
   };
 
-  const handleInsightsComplete = (generatedInsights: string) => {
-    setInsights(generatedInsights);
-    // Stay on insights-generation step to show the report
+  const handleInsightsComplete = () => {
+    // Insights completed - stay on current step
   };
 
   return (
@@ -44,9 +44,9 @@ export default function DemoPage() {
           <div className="flex justify-between items-center py-6">
             <div className="text-2xl font-bold">Brand Response</div>
             <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-white/90 hover:text-white transition-colors">
+              <Link href="/" className="text-white/90 hover:text-white transition-colors">
                 Home
-              </a>
+              </Link>
             </nav>
           </div>
         </div>
