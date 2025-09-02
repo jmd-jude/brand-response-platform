@@ -107,7 +107,7 @@ Create these files (I'll provide code for each):
 **Deployment:**
 
 - [ ] Vercel deployment working
-- [ ] Environment variables set in production
+- [X] Environment variables set in production
 
 ---
 
