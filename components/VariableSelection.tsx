@@ -128,7 +128,7 @@ export default function VariableSelection({ businessContext, onVariablesSelected
       <div className="max-w-6xl mx-auto p-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            AI Variable Selection
+            Variable Selection Processing
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Analyzing your business context to select the most strategic data variables...
