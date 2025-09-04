@@ -141,7 +141,7 @@ export default function VariableSelection({ businessContext, onVariablesSelected
             Smart Analytics in Progress
           </h3>
           <p className="text-gray-600 mb-4">
-            Processing your business context and selecting optimal variables from 200+ available options
+            Selecting optimal variables
           </p>
           <div className="flex justify-center space-x-6 text-sm text-gray-500">
             <div className="flex items-center">

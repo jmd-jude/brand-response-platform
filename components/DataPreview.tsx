@@ -255,10 +255,10 @@ export default function DataPreview({ selectedVariables, onContinue }: DataPrevi
         <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
           <div className="animate-spin w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full mx-auto mb-6"></div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Identity Graph Processing
+            Looking Up Customer Information
           </h3>
           <p className="text-gray-600 mb-6">
-            Connecting to enterprise data sources and enriching {enrichedSampleData.length} customer records
+            Finding details about your customers and improving {enrichedSampleData.length} customer records
           </p>
           
           <div className="flex justify-center space-x-8 text-sm text-gray-500">
