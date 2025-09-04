@@ -1,4 +1,3 @@
-// Fix 1: app/demo/page.tsx - Remove unused insights variable and fix Link
 'use client';
 
 import React, { useState } from 'react';
@@ -9,12 +8,25 @@ import VariableSelection, { Variable } from '../../components/VariableSelection'
 import DataPreview from '../../components/DataPreview';
 import InsightsGenerator from '../../components/InsightsGenerator';
 
+interface CustomerRecord {
+  customer_id?: string;
+  id?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  city?: string;
+  state?: string;
+  [key: string]: any;
+}
+
 export default function DemoPage() {
   const [currentStep, setCurrentStep] = useState('sample-data');
+  const [customerData, setCustomerData] = useState<CustomerRecord[]>([]);
   const [businessContext, setBusinessContext] = useState<BusinessContext | null>(null);
   const [selectedVariables, setSelectedVariables] = useState<Variable[]>([]);
 
-  const handleDataLoaded = () => {
+  const handleDataLoaded = (data: CustomerRecord[]) => {
+    setCustomerData(data);
     setCurrentStep('business-context');
   };
 
@@ -70,7 +82,7 @@ export default function DemoPage() {
                 }`}>
                   {['business-context', 'variable-selection', 'data-preview', 'insights-generation'].includes(currentStep) ? '✓' : '1'}
                 </div>
-                <span className="ml-2 text-sm font-medium">Sample Data</span>
+                <span className="ml-2 text-sm font-medium">Upload Data</span>
               </div>
               
               <div className="w-12 h-0.5 bg-gray-200"></div>
@@ -124,7 +136,7 @@ export default function DemoPage() {
                 }`}>
                   {currentStep === 'insights-generation' ? '✓' : '4'}
                 </div>
-                <span className="ml-2 text-sm font-medium">Data Preview</span>
+                <span className="ml-2 text-sm font-medium">Data Enhancement</span>
               </div>
               
               <div className="w-12 h-0.5 bg-gray-200"></div>
@@ -162,6 +174,7 @@ export default function DemoPage() {
         
         {currentStep === 'data-preview' && (
           <DataPreview 
+            customerData={customerData}
             selectedVariables={selectedVariables}
             onContinue={handleDataPreviewContinue}
           />
