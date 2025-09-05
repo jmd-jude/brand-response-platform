@@ -42,7 +42,7 @@ interface EnrichedCustomer extends CustomerRecord {
 interface DataPreviewProps {
   customerData: CustomerRecord[];
   selectedVariables: Variable[];
-  onContinue: () => void;
+  onContinue: (enrichedData?: CustomerRecord[]) => void;
 }
 
 export default function DataPreview({ customerData, selectedVariables, onContinue }: DataPreviewProps) {
@@ -359,7 +359,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
       {/* Continue Button */}
       <div className="text-center">
         <button
-          onClick={onContinue}
+          onClick={() => onContinue(enrichedData)}
           className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
         >
           Generate Strategic Insights →

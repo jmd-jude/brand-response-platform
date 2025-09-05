@@ -1,320 +1,392 @@
 {
   "version": "2.0",
   "tables": {
-    "IDENTITY": {
-      "fields": {
-        "id": {
-          "type": "NUMBER",
-          "nullable": false,
-          "primary_key": true,
-          "description": "Unique identity identifier"
-        },
-        "firstName": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Customer first name"
-        },
-        "lastName": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Customer last name"
-        },
-        "gender": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Customer gender (Male/Female)"
-        },
-        "birthDate": {
-          "type": "DATE",
-          "nullable": true,
-          "description": "Customer birth date for age calculation"
-        },
-        "address": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Street address"
-        },
-        "city": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "City of residence"
-        },
-        "state": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "State of residence"
-        },
-        "zip": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "ZIP code"
-        },
-        "latitude": {
-          "type": "FLOAT",
-          "nullable": true,
-          "description": "Geographic latitude"
-        },
-        "longitude": {
-          "type": "FLOAT",
-          "nullable": true,
-          "description": "Geographic longitude"
-        }
-      },
-      "description": "Core identity and demographic information from identity resolution"
-    },
     "DATA": {
       "fields": {
         "age": {
-          "type": "NUMBER",
-          "nullable": true,
+          "category": "demographics",
           "description": "Customer age in years"
         },
+        "gender": {
+          "category": "demographics", 
+          "description": "Customer gender (Male/Female)"
+        },
         "generation": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "demographics",
           "description": "Generational cohort (Gen Z, Millennial, Gen X, Baby Boomer)"
         },
         "maritalStatus": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "demographics",
           "description": "Marital status (Married/Single)"
         },
-        "childrenHh": {
-          "type": "NUMBER",
-          "nullable": true,
+        "householdChildren": {
+          "category": "demographics",
           "description": "Number of children in household"
         },
         "education": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Educational attainment level"
         },
         "occupationType": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Occupation category (White Collar/Blue Collar/Other)"
         },
-        "incomeHh": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Household income range"
-        },
-        "discretionaryIncome": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Available discretionary income"
-        },
-        "netWorthHh": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Household net worth estimate"
+        "occupationCategory": {
+          "category": "lifestyle",
+          "description": "Detailed occupation category (Professional, Management, etc.)"
         },
         "urbanicity": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Geographic lifestyle (Urban/Suburban/Rural)"
         },
+        "dwellingType": {
+          "category": "lifestyle",
+          "description": "Type of residence (Single Family, Apartment, etc.)"
+        },
+        "lengthOfResidence": {
+          "category": "lifestyle",
+          "description": "Years at current residence"
+        },
+        "householdIncome": {
+          "category": "economic",
+          "description": "Household income range"
+        },
+        "householdIncomeMidpoint": {
+          "category": "economic",
+          "description": "Household income midpoint estimate"
+        },
+        "discretionaryIncome": {
+          "category": "economic",
+          "description": "Available discretionary spending power"
+        },
+        "householdNetWorth": {
+          "category": "economic",
+          "description": "Household net worth estimate"
+        },
+        "householdNetWorthMidpoint": {
+          "category": "economic",
+          "description": "Household net worth midpoint estimate"
+        },
+        "homeOwnership": {
+          "category": "economic",
+          "description": "Home ownership status"
+        },
+        "homeValue": {
+          "category": "economic",
+          "description": "Estimated home value"
+        },
+        "creditRange": {
+          "category": "economic",
+          "description": "Credit score range"
+        },
+        "creditMidpoint": {
+          "category": "economic",
+          "description": "Credit score midpoint"
+        },
+        "ownsInvestments": {
+          "category": "economic",
+          "description": "Investment ownership indicator"
+        },
+        "investor": {
+          "category": "economic",
+          "description": "Active investor indicator"
+        },
         "householdVehicles": {
-          "type": "NUMBER",
-          "nullable": true,
+          "category": "economic",
           "description": "Number of vehicles owned by household"
         },
-        "fitness": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "fitnessAffinity": {
+          "category": "interests",
           "description": "Interest in fitness and health activities"
         },
-        "gourmet": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "gourmetAffinity": {
+          "category": "interests",
           "description": "Interest in gourmet food and premium dining"
         },
-        "cooking": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "cookingAffinity": {
+          "category": "interests",
           "description": "Interest in cooking and culinary activities"
         },
-        "outdoors": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "outdoorsAffinity": {
+          "category": "interests",
           "description": "Interest in outdoor activities and recreation"
         },
-        "travel": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "travelAffinity": {
+          "category": "interests",
           "description": "Interest in travel and vacation activities"
         },
-        "highTech": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Interest in technology and digital products"
+        "businessAffinity": {
+          "category": "interests",
+          "description": "Interest in business and entrepreneurship"
         },
-        "luxury": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Interest in luxury goods and premium products"
+        "basketballAffinity": {
+          "category": "interests",
+          "description": "Interest in basketball"
         },
-        "books": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Interest in books and reading"
+        "familyAffinity": {
+          "category": "interests",
+          "description": "Interest in family activities"
         },
-        "music": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Interest in music and entertainment"
+        "catalogAffinity": {
+          "category": "interests",
+          "description": "Interest in catalog shopping"
         },
-        "homeDecor": {
-          "type": "BOOLEAN",
-          "nullable": true,
+        "homeDecoratingAffinity": {
+          "category": "interests",
           "description": "Interest in home decoration and design"
         },
+        "personalFinanceAffinity": {
+          "category": "interests",
+          "description": "Interest in personal finance management"
+        },
+        "moneyMakingAffinity": {
+          "category": "interests",
+          "description": "Interest in money-making opportunities"
+        },
+        "autoAffinity": {
+          "category": "interests",
+          "description": "Interest in automobiles"
+        },
+        "collectiblesAffinity": {
+          "category": "interests",
+          "description": "Interest in collectibles"
+        },
+        "fitness": {
+          "category": "interests",
+          "description": "Fitness activities participation"
+        },
+        "epicurean": {
+          "category": "interests",
+          "description": "Interest in fine food and drink"
+        },
         "gardening": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in gardening and plant care"
         },
-        "petOwner": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Pet ownership indicator"
-        },
-        "magazineSubscriber": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Magazine subscription behavior"
-        },
         "golf": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in golf"
         },
         "tennis": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in tennis"
         },
         "baseball": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in baseball"
         },
         "basketball": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in basketball"
         },
         "football": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "interests",
           "description": "Interest in football"
         },
+        "music": {
+          "category": "interests",
+          "description": "Interest in music"
+        },
+        "cooking": {
+          "category": "interests",
+          "description": "Cooking activities participation"
+        },
+        "homeDecor": {
+          "category": "interests",
+          "description": "Interest in home decoration"
+        },
+        "diy": {
+          "category": "interests",
+          "description": "Do-it-yourself activities interest"
+        },
+        "antiques": {
+          "category": "interests",
+          "description": "Interest in antiques"
+        },
+        "books": {
+          "category": "interests",
+          "description": "Interest in books and reading"
+        },
+        "healthyLiving": {
+          "category": "interests",
+          "description": "Interest in healthy lifestyle"
+        },
+        "selfImprovement": {
+          "category": "interests",
+          "description": "Interest in self-improvement"
+        },
+        "highTechAffinity": {
+          "category": "interests",
+          "description": "Interest in technology and digital products"
+        },
+        "religion": {
+          "category": "demographics",
+          "description": "Religious affiliation"
+        },
+        "petOwner": {
+          "category": "behavioral",
+          "description": "Pet ownership indicator"
+        },
+        "dogOwner": {
+          "category": "behavioral",
+          "description": "Dog ownership indicator"
+        },
+        "catOwner": {
+          "category": "behavioral",
+          "description": "Cat ownership indicator"
+        },
+        "magazineSubscriber": {
+          "category": "behavioral",
+          "description": "Magazine subscription behavior"
+        },
+        "readingMagazines": {
+          "category": "behavioral",
+          "description": "Magazine reading behavior"
+        },
+        "readingAvidReader": {
+          "category": "behavioral",
+          "description": "Avid reading behavior"
+        },
         "sohoBusiness": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "behavioral",
           "description": "Small office/home office business owner"
         },
+        "likelyCharitableDonor": {
+          "category": "behavioral",
+          "description": "Likelihood to donate to charitable causes"
+        },
+        "politicalContributor": {
+          "category": "behavioral",
+          "description": "Political contribution behavior"
+        },
+        "politicalParty": {
+          "category": "behavioral",
+          "description": "Political party affiliation"
+        },
+        "voter": {
+          "category": "behavioral",
+          "description": "Voting behavior indicator"
+        },
+        "recentCatalogPurchasesDollars": {
+          "category": "behavioral",
+          "description": "Recent catalog purchase spending"
+        },
+        "travelCruises": {
+          "category": "behavioral",
+          "description": "Cruise travel behavior"
+        },
+        "travelVacation": {
+          "category": "behavioral",
+          "description": "Vacation travel behavior"
+        },
+        "travelForeign": {
+          "category": "behavioral",
+          "description": "International travel behavior"
+        },
         "investments": {
-          "type": "BOOLEAN",
-          "nullable": true,
-          "description": "Investment activity and interest"
+          "category": "behavioral",
+          "description": "Investment purchasing behavior"
+        },
+        "jewelry": {
+          "category": "behavioral",
+          "description": "Jewelry purchasing behavior"
         }
-      },
-      "description": "Comprehensive lifestyle, demographic, and behavioral data from consumer identity graph"
+      }
     },
     "PROPERTIES": {
       "fields": {
         "estimatedValue": {
-          "type": "NUMBER",
-          "nullable": true,
+          "category": "economic",
           "description": "Estimated property value"
         },
+        "assessedValue": {
+          "category": "economic",
+          "description": "Assessed property value for taxes"
+        },
         "ownerOccupied": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "economic",
           "description": "Property is owner-occupied (homeowner vs renter)"
         },
         "propertyType": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Type of property (Single Family, Condo, etc.)"
         },
-        "bedrooms": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Number of bedrooms"
-        },
         "yearBuilt": {
-          "type": "NUMBER",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Year property was built"
         },
         "livingSqFt": {
-          "type": "NUMBER",
-          "nullable": true,
-          "description": "Living square footage"
+          "category": "economic",
+          "description": "Living square footage as wealth indicator"
+        },
+        "saleAmount": {
+          "category": "economic",
+          "description": "Most recent sale amount"
+        },
+        "mortgageAmount": {
+          "category": "economic",
+          "description": "Current mortgage amount"
+        },
+        "homePrice": {
+          "category": "economic",
+          "description": "Home purchase price"
+        },
+        "loanToValue": {
+          "category": "economic",
+          "description": "Loan to value ratio"
         }
-      },
-      "description": "Property ownership and real estate information"
+      }
     },
     "VEHICLES": {
       "fields": {
         "make": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Vehicle manufacturer"
+          "category": "lifestyle",
+          "description": "Vehicle manufacturer preference"
         },
         "model": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Vehicle model"
         },
         "year": {
-          "type": "NUMBER",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Vehicle model year"
         },
-        "msrp": {
-          "type": "NUMBER",
-          "nullable": true,
-          "description": "Manufacturer suggested retail price"
-        },
         "vehicleType": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Type of vehicle (Car, Truck, SUV, etc.)"
         },
+        "bodyType": {
+          "category": "lifestyle",
+          "description": "Vehicle body type"
+        },
+        "msrp": {
+          "category": "economic",
+          "description": "Vehicle value as economic indicator"
+        },
         "class": {
-          "type": "TEXT",
-          "nullable": true,
+          "category": "lifestyle",
           "description": "Vehicle class (Luxury, Mainstream, etc.)"
+        },
+        "manufacturerBased": {
+          "category": "lifestyle",
+          "description": "Vehicle manufacturer origin"
         }
-      },
-      "description": "Vehicle ownership information indicating lifestyle and economic status"
+      }
     },
     "FINANCES": {
       "fields": {
         "discretionaryIncome": {
-          "type": "TEXT",
-          "nullable": true,
-          "description": "Available discretionary spending power"
+          "category": "economic",
+          "description": "Available discretionary income range"
         },
         "mortgageOfferResponse": {
-          "type": "BOOLEAN",
-          "nullable": true,
+          "category": "behavioral",
           "description": "Responsiveness to mortgage offers"
         }
-      },
-      "description": "Financial indicators and creditworthiness signals"
+      }
     }
   },
   "business_context": {
-    "description": "Customer intelligence platform for brand strategy and audience insights. Provides demographic, lifestyle, and behavioral data to inform brand positioning, messaging, and strategic decision-making for small and medium businesses.",
-    "key_concepts": [
-      "Identity Resolution: Matching customer records to comprehensive profiles",
-      "Lifestyle Segmentation: Boolean flags indicating interests and behaviors", 
-      "Economic Indicators: Income, property value, and spending power metrics",
-      "Behavioral Data: Purchase patterns, subscription behaviors, and engagement signals"
-    ]
+    "description": "Customer intelligence platform for brand strategy and audience insights. Provides demographic, lifestyle, and behavioral data to inform brand positioning, messaging, and strategic decision-making for small and medium businesses."
   }
 }

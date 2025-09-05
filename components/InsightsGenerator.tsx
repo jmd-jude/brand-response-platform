@@ -9,10 +9,16 @@ import { Variable } from './VariableSelection';
 interface InsightsGeneratorProps {
   businessContext: BusinessContext;
   selectedVariables: Variable[];
+  enrichedCustomers?: any[]; // Add this prop
   onComplete: (insights: string) => void;
 }
 
-export default function InsightsGenerator({ businessContext, selectedVariables, onComplete }: InsightsGeneratorProps) {
+export default function InsightsGenerator({ 
+  businessContext, 
+  selectedVariables, 
+  enrichedCustomers = [], // Default to empty array
+  onComplete 
+}: InsightsGeneratorProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [insights, setInsights] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +51,8 @@ export default function InsightsGenerator({ businessContext, selectedVariables, 
         },
         body: JSON.stringify({ 
           businessContext, 
-          selectedVariables 
+          selectedVariables,
+          enrichedCustomers // Now properly defined
         }),
       });
 
@@ -283,7 +290,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
               <strong>BrandIntel</strong> Customer Intelligence Analysis
             </div>
             <div>
-              {selectedVariables.length} variables analyzed • 500 customer records processed
+              {selectedVariables.length} variables analyzed • {enrichedCustomers.length} customer records processed
             </div>
           </div>
         </div>

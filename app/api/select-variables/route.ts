@@ -19,18 +19,14 @@ interface Variable {
 }
 
 interface SchemaField {
-  type: string;
-  nullable: boolean;
-  primary_key: boolean;
-  description?: string;
+  category: string;
+  description: string;
 }
 
 interface Schema {
-  tables: {
-    DATA: {
-      fields: Record<string, SchemaField>;
-    };
-  };
+  tables: Record<string, {
+    fields: Record<string, SchemaField>;
+  }>;
 }
 
 // Load schema from file
@@ -46,43 +42,28 @@ function loadSchema(): Schema | null {
 }
 
 // Extract available variables from schema
+// In your getAvailableVariables() function, replace the current logic with:
 function getAvailableVariables(): Array<{name: string, category: string, description: string}> {
   const schema = loadSchema();
   
-  if (!schema || !schema.tables?.DATA?.fields) {
+  if (!schema || !schema.tables) {
     console.log('Schema not found, using fallback variables');
     return getFallbackVariables();
   }
 
   const variables: Array<{name: string, category: string, description: string}> = [];
-  const dataFields = schema.tables.DATA.fields;
 
-  // Skip internal/technical fields
-  const skipFields = ['ID', 'ADDRESS_ID', 'HOUSEHOLD_ID', 'SOURCENUMBER', 'NATIONALCONSUMERDATABASE', 
-                     'MD5', 'SHA1', 'SHA256', 'UPDATEDATE', 'REGISTERDATE', 'RANKORDER'];
-
-  Object.entries(dataFields).forEach(([fieldName, fieldInfo]) => {
-    if (skipFields.some(skip => fieldName.includes(skip))) return;
-
-    // Categorize variables based on field name patterns
-    let category = 'lifestyle';
-    let description = fieldInfo.description || `${fieldName.toLowerCase().replace(/_/g, ' ')}`;
-
-    if (['AGE', 'GENDER', 'MARITAL_STATUS', 'CHILDREN_HH', 'GENERATION', 'BIRTH_YEAR'].some(demo => fieldName.includes(demo))) {
-      category = 'demographics';
-    } else if (['INCOME', 'NET_WORTH', 'CREDIT', 'INVESTMENT', 'BANK', 'MORTGAGE'].some(econ => fieldName.includes(econ))) {
-      category = 'economic';
-    } else if (fieldName.includes('AFFINITY') || fieldName.includes('INTEREST')) {
-      category = 'interests';
-    } else if (['READING', 'DONOR', 'PURCHASES', 'CATALOG', 'MAGAZINE'].some(behav => fieldName.includes(behav))) {
-      category = 'behavioral';
+  // Process all tables in the schema
+  Object.entries(schema.tables).forEach(([tableName, tableInfo]) => {
+    if (tableInfo.fields) {
+      Object.entries(tableInfo.fields).forEach(([fieldName, fieldInfo]) => {
+        variables.push({
+          name: fieldName,
+          category: fieldInfo.category,
+          description: fieldInfo.description
+        });
+      });
     }
-
-    variables.push({
-      name: fieldName,
-      category,
-      description
-    });
   });
 
   return variables.length > 0 ? variables : getFallbackVariables();
@@ -92,36 +73,34 @@ function getAvailableVariables(): Array<{name: string, category: string, descrip
 function getFallbackVariables(): Array<{name: string, category: string, description: string}> {
   return [
     // Demographics
-    { name: 'AGE', category: 'demographics', description: 'Customer age for segmentation' },
-    { name: 'GENDER', category: 'demographics', description: 'Gender identification' },
-    { name: 'MARITAL_STATUS', category: 'demographics', description: 'Married/Single status' },
-    { name: 'CHILDREN_HH', category: 'demographics', description: 'Number of children in household' },
-    { name: 'GENERATION', category: 'demographics', description: 'Generational cohort' },
+    { name: 'age', category: 'demographics', description: 'Customer age in years' },
+    { name: 'gender', category: 'demographics', description: 'Customer gender (Male/Female)' },
+    { name: 'maritalStatus', category: 'demographics', description: 'Marital status (Married/Single)' },
+    { name: 'householdChildren', category: 'demographics', description: 'Number of children in household' }, // Fixed
+    { name: 'generation', category: 'demographics', description: 'Generational cohort (Gen Z, Millennial, Gen X, Baby Boomer)' },
     
     // Economic
-    { name: 'INCOME_HH', category: 'economic', description: 'Household income levels' },
-    { name: 'NET_WORTH_HH', category: 'economic', description: 'Household net worth' },
-    { name: 'OWNS_INVESTMENTS', category: 'economic', description: 'Investment ownership' },
-    { name: 'CREDIT_CARD', category: 'economic', description: 'Credit card usage patterns' },
+    { name: 'householdIncome', category: 'economic', description: 'Household income range' }, // Fixed
+    { name: 'householdNetWorth', category: 'economic', description: 'Household net worth estimate' }, // Fixed
+    { name: 'investments', category: 'behavioral', description: 'Investment purchasing behavior' },
+    { name: 'discretionaryIncome', category: 'economic', description: 'Available discretionary spending power' },
     
     // Lifestyle
-    { name: 'EDUCATION', category: 'lifestyle', description: 'Educational attainment' },
-    { name: 'OCCUPATION_TYPE', category: 'lifestyle', description: 'White collar vs blue collar' },
-    { name: 'URBANICITY', category: 'lifestyle', description: 'Urban/suburban/rural residence' },
-    { name: 'DWELLING_TYPE', category: 'lifestyle', description: 'Housing type' },
+    { name: 'education', category: 'lifestyle', description: 'Educational attainment level' },
+    { name: 'occupationType', category: 'lifestyle', description: 'Occupation category (White Collar/Blue Collar/Other)' },
+    { name: 'urbanicity', category: 'lifestyle', description: 'Geographic lifestyle (Urban/Suburban/Rural)' },
     
-    // Interests & Affinities
-    { name: 'GOURMET_AFFINITY', category: 'interests', description: 'Interest in gourmet/premium products' },
-    { name: 'FITNESS_AFFINITY', category: 'interests', description: 'Health and fitness interest' },
-    { name: 'HIGH_TECH_AFFINITY', category: 'interests', description: 'Technology adoption' },
-    { name: 'TRAVEL_AFFINITY', category: 'interests', description: 'Travel and leisure interest' },
-    { name: 'COOKING_AFFINITY', category: 'interests', description: 'Cooking and culinary interest' },
-    { name: 'BUSINESS_AFFINITY', category: 'interests', description: 'Business and entrepreneurship interest' },
+    // Interests
+    { name: 'gourmetAffinity', category: 'interests', description: 'Interest in gourmet food and premium dining' }, // Fixed
+    { name: 'fitnessAffinity', category: 'interests', description: 'Interest in fitness and health activities' }, // Fixed
+    { name: 'highTechAffinity', category: 'interests', description: 'Interest in technology and digital products' }, // Fixed
+    { name: 'travelAffinity', category: 'interests', description: 'Interest in travel and vacation activities' },
+    { name: 'cookingAffinity', category: 'interests', description: 'Interest in cooking and culinary activities' },
     
     // Behavioral
-    { name: 'READING_MAGAZINES', category: 'behavioral', description: 'Magazine reading behavior' },
-    { name: 'LIKELY_CHARITABLE_DONOR', category: 'behavioral', description: 'Charitable giving tendency' },
-    { name: 'RECENT_CATALOG_PURCHASES_TOTAL_ORDERS', category: 'behavioral', description: 'Catalog shopping behavior' },
+    { name: 'magazineSubscriber', category: 'behavioral', description: 'Magazine subscription behavior' },
+    { name: 'petOwner', category: 'behavioral', description: 'Pet ownership indicator' },
+    { name: 'sohoBusiness', category: 'behavioral', description: 'Small office/home office business owner' },
   ];
 }
 
@@ -169,32 +148,32 @@ Select variables that will reveal the most surprising and actionable insights ab
 function getFallbackVariablesForContext(businessContext: BusinessContext): Variable[] {
   const baseVariables: Variable[] = [
     {
-      variable: "AGE",
+      variable: "age",
       category: "demographics",
       rationale: "Core demographic for market segmentation and age-appropriate messaging"
     },
     {
-      variable: "INCOME_HH",
+      variable: "householdIncome",
       category: "economic", 
       rationale: "Essential for pricing strategy and premium positioning decisions"
     },
     {
-      variable: "EDUCATION",
+      variable: "education",
       category: "lifestyle",
       rationale: "Indicates customer sophistication and preferred communication style"
     },
     {
-      variable: "URBANICITY",
+      variable: "urbanicity",
       category: "lifestyle",
       rationale: "Geographic preferences affect brand positioning and distribution strategy"
     },
     {
-      variable: "MARITAL_STATUS",
+      variable: "maritalStatus",
       category: "demographics",
       rationale: "Life stage affects purchasing behavior and product usage patterns"
     },
     {
-      variable: "OCCUPATION_TYPE",
+      variable: "occupationType",
       category: "lifestyle",
       rationale: "Professional vs blue-collar preferences inform messaging approach"
     }
@@ -203,35 +182,35 @@ function getFallbackVariablesForContext(businessContext: BusinessContext): Varia
   // Add industry-specific variables
   if (businessContext.industry === 'Food & Beverage') {
     baseVariables.push({
-      variable: "GOURMET_AFFINITY",
+      variable: "gourmetAffinity",
       category: "interests",
       rationale: "Quality appreciation aligns with premium food/beverage positioning"
     });
     baseVariables.push({
-      variable: "FITNESS_AFFINITY", 
+      variable: "fitnessAffinity", 
       category: "interests",
       rationale: "Health consciousness affects food and beverage preferences"
     });
   } else if (businessContext.industry === 'Technology') {
     baseVariables.push({
-      variable: "HIGH_TECH_AFFINITY",
+      variable: "highTechAffinity",
       category: "interests", 
       rationale: "Technology adoption patterns crucial for tech product positioning"
     });
     baseVariables.push({
-      variable: "BUSINESS_AFFINITY",
-      category: "interests",
-      rationale: "B2B technology adoption correlates with business interest"
+      variable: "sohoBusiness",
+      category: "behavioral",
+      rationale: "B2B technology adoption correlates with business ownership"
     });
   } else if (businessContext.industry === 'Retail') {
     baseVariables.push({
-      variable: "RECENT_CATALOG_PURCHASES_TOTAL_ORDERS",
+      variable: "magazineSubscriber",
       category: "behavioral",
       rationale: "Shopping behavior indicates customer engagement preferences"
     });
   }
 
-  return baseVariables.slice(0, 8); // Return max 8 variables
+  return baseVariables.slice(0, 8);
 }
 
 export async function POST(request: NextRequest) {

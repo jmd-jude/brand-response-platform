@@ -24,6 +24,7 @@ export default function DemoPage() {
   const [customerData, setCustomerData] = useState<CustomerRecord[]>([]);
   const [businessContext, setBusinessContext] = useState<BusinessContext | null>(null);
   const [selectedVariables, setSelectedVariables] = useState<Variable[]>([]);
+  const [enrichedCustomers, setEnrichedCustomers] = useState<CustomerRecord[]>([]); // Add this state
 
   const handleDataLoaded = (data: CustomerRecord[]) => {
     setCustomerData(data);
@@ -40,7 +41,11 @@ export default function DemoPage() {
     setCurrentStep('data-preview');
   };
 
-  const handleDataPreviewContinue = () => {
+  // Updated to capture enriched data
+  const handleDataPreviewContinue = (enrichedData?: CustomerRecord[]) => {
+    if (enrichedData) {
+      setEnrichedCustomers(enrichedData);
+    }
     setCurrentStep('insights-generation');
   };
 
@@ -184,6 +189,7 @@ export default function DemoPage() {
           <InsightsGenerator 
             businessContext={businessContext}
             selectedVariables={selectedVariables}
+            enrichedCustomers={enrichedCustomers} // Pass the enriched data
             onComplete={handleInsightsComplete}
           />
         )}

@@ -27,23 +27,54 @@ function createAuthHeader() {
   return `${process.env.AA_KEY_ID}${timestamp}${hash}`;
 }
 
-// Extract relevant fields from AA response
+// Extract relevant fields from AA response based on selected variables
 function extractRelevantData(identity: any, requestedFields: string[]): any {
-  console.log('Available data keys:', Object.keys(identity.data?.[0] || {}));
-  console.log('Sample data object:', identity.data?.[0]);
-  
   const enriched: any = {};
   
-  // Only extract fields that were actually requested
+  // Function to recursively search for a field in an object
+  function findFieldValue(obj: any, fieldName: string): any {
+    if (!obj || typeof obj !== 'object') return undefined;
+    
+    // Direct match (case-sensitive)
+    if (obj[fieldName] !== undefined) {
+      return obj[fieldName];
+    }
+    
+    // Case-insensitive match
+    const keys = Object.keys(obj);
+    const matchingKey = keys.find(key => key.toLowerCase() === fieldName.toLowerCase());
+    if (matchingKey && obj[matchingKey] !== undefined) {
+      return obj[matchingKey];
+    }
+    
+    return undefined;
+  }
+  
+  // Search locations in order of priority
+  const searchLocations = [
+    identity.data,           // Most fields are here
+    identity,               // Some basic fields
+    identity.finances,      // Financial data
+    identity.properties?.[0], // Property data (first property)
+    identity.vehicles?.[0]    // Vehicle data (first vehicle)
+  ];
+  
   requestedFields.forEach(fieldName => {
-    if (identity[fieldName] !== undefined) {
-      enriched[fieldName] = identity[fieldName];
-    } else if (identity.data?.[0]?.[fieldName] !== undefined) {
-      enriched[fieldName] = identity.data[0][fieldName];
-    } else if (identity.properties?.[0]?.[fieldName] !== undefined) {
-      enriched[fieldName] = identity.properties[0][fieldName];
-    } else if (identity.finances?.[fieldName] !== undefined) {
-      enriched[fieldName] = identity.finances[fieldName];
+    let found = false;
+    
+    // Search each location until we find the field
+    for (const location of searchLocations) {
+      const value = findFieldValue(location, fieldName);
+      if (value !== undefined) {
+        enriched[fieldName] = value;
+        found = true;
+        break;
+      }
+    }
+    
+    // If not found, log for debugging (remove in production)
+    if (!found) {
+      console.log(`Field '${fieldName}' not found in API response`);
     }
   });
   
@@ -138,8 +169,8 @@ export async function POST(request: NextRequest) {
     const results = [];
     let successCount = 0;
     
-    // Process first 10 records to avoid long processing times
-    const recordsToProcess = customerData.slice(0, 10);
+    // Process records
+    const recordsToProcess = customerData.slice(0, Math.min(customerData.length, 500));
     
     for (const customer of recordsToProcess) {
       try {
