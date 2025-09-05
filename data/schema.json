@@ -215,10 +215,6 @@
           "category": "interests",
           "description": "Interest in self-improvement"
         },
-        "highTechAffinity": {
-          "category": "interests",
-          "description": "Interest in technology and digital products"
-        },
         "religion": {
           "category": "demographics",
           "description": "Religious affiliation"

@@ -169,7 +169,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
             Processing Customer Records
           </h3>
           <p className="text-gray-600 mb-6">
-            Enhancing {Math.min(customerData.length, 10)} customer records with BrandIntel data
+            Enhancing {customerData.length} customer records with BrandIntel data
           </p>
           
           <div className="flex justify-center space-x-8 text-sm text-gray-500">
