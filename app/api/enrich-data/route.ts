@@ -20,11 +20,22 @@ interface Variable {
 }
 
 // Authentication helper
+// In your enrich-data API route
 function createAuthHeader() {
   const timestamp = Date.now().toString();
   const toHash = timestamp + process.env.AA_SECRET;
   const hash = crypto.createHash('md5').update(toHash).digest('hex');
-  return `${process.env.AA_KEY_ID}${timestamp}${hash}`;
+  const authHeader = `${process.env.AA_KEY_ID}${timestamp}${hash}`;
+  
+  console.log('Auth Debug:', {
+    keyId: process.env.AA_KEY_ID,
+    timestamp,
+    secretLength: process.env.AA_SECRET?.length,
+    hash: hash.slice(0, 8) + '...',
+    fullAuth: authHeader.slice(0, 20) + '...'
+  });
+  
+  return authHeader;
 }
 
 // Extract relevant fields from AA response based on selected variables
@@ -85,10 +96,12 @@ function extractRelevantData(identity: any, requestedFields: string[]): any {
 async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariables: Variable[]): Promise<CustomerRecord> {
   const { email, first_name, last_name, city, state } = customerData;
   const requestedFields = selectedVariables.map(v => v.variable);
-  
+
   try {
     // Try email lookup first (most reliable)
     if (email) {
+      console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
+
       const url = `${process.env.AA_ORIGIN}/v2/identities/byEmail?email=${email}`;
       const response = await fetch(url, {
         headers: {
@@ -96,6 +109,8 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
           'Content-Type': 'application/json'
         }
       });
+
+      console.log('API Response Status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
@@ -107,6 +122,9 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
             enrichment_source: 'email'
           };
         }
+      } else {
+        const responseText = await response.text();
+        console.log('Raw API response:', responseText.slice(0, 500));
       }
     }
     
