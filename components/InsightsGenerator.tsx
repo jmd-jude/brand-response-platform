@@ -14,6 +14,18 @@ interface InsightsGeneratorProps {
   onComplete: (insights: string) => void;
 }
 
+interface AggregatedData {
+  totalRecords: number;
+  enrichedRecords: number;
+  matchRate: number;
+  variableAnalysis: Record<string, {
+    category: string;
+    coverage: number;
+    summary: string;
+    [key: string]: any;
+  }>;
+}
+
 export default function InsightsGenerator({ 
   businessContext, 
   selectedVariables, 
@@ -24,6 +36,7 @@ export default function InsightsGenerator({
   const [insights, setInsights] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [aggregatedData, setAggregatedData] = useState<AggregatedData | null>(null);
 
   useEffect(() => {
     generateInsights();
@@ -70,6 +83,12 @@ export default function InsightsGenerator({
       await new Promise(resolve => setTimeout(resolve, 500));
       
       setInsights(data.insights);
+
+      // Store aggregated data for query generation
+      if (data.aggregatedData) {
+        setAggregatedData(data.aggregatedData);
+      }
+
       setIsLoading(false);
       onComplete(data.insights);
       
@@ -83,6 +102,7 @@ export default function InsightsGenerator({
       
       await new Promise(resolve => setTimeout(resolve, 1000));
       setInsights(fallbackInsights);
+      setAggregatedData(null);
       setIsLoading(false);
       onComplete(fallbackInsights);
     }
@@ -302,6 +322,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
         businessContext={businessContext}
         selectedVariables={selectedVariables}
         insights={insights}
+        aggregatedData={aggregatedData}
       />
 
       {/* Action Buttons */}

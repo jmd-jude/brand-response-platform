@@ -15,16 +15,30 @@ interface QueryBuckets {
   growthAudiences: QueryBucket;
 }
 
+interface AggregatedData {
+  totalRecords: number;
+  enrichedRecords: number;
+  matchRate: number;
+  variableAnalysis: Record<string, {
+    category: string;
+    coverage: number;
+    summary: string;
+    [key: string]: any;
+  }>;
+}
+
 interface QuerySuggestionsProps {
   businessContext: BusinessContext;
   selectedVariables: Variable[];
   insights: string;
+  aggregatedData?: AggregatedData | null;
 }
 
 export default function QuerySuggestions({ 
   businessContext, 
   selectedVariables, 
-  insights 
+  insights,
+  aggregatedData = null
 }: QuerySuggestionsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [queryBuckets, setQueryBuckets] = useState<QueryBuckets | null>(null);
@@ -48,7 +62,8 @@ export default function QuerySuggestions({
         body: JSON.stringify({
           businessContext,
           selectedVariables,
-          insights
+          insights,
+          aggregatedData
         }),
       });
 
@@ -57,6 +72,7 @@ export default function QuerySuggestions({
       }
 
       const data = await response.json();
+      console.log('Query API response:', data);
       setQueryBuckets(data.queryBuckets);
     } catch (error) {
       console.error('Error generating queries:', error);

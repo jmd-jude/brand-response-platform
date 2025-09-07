@@ -1,6 +1,5 @@
 // app/api/generate-queries/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { logEnrichmentData } from '../../../lib/logger';
 
 interface BusinessContext {
   businessName: string;
@@ -24,66 +23,88 @@ interface QueryBucket {
   queries: string[];
 }
 
-function generateQueryPrompt(
+function generateEnhancedQueryPrompt(
   businessContext: BusinessContext, 
   selectedVariables: Variable[], 
-  insights: string
+  insights: string,
+  aggregatedData: any
 ): string {
   const variablesList = selectedVariables.map(v => `${v.variable} (${v.category})`).join(', ');
   
-  return `You are a strategic business intelligence analyst generating natural language database queries.
+  // Extract key patterns from aggregated data
+let dataPatterns = "No enriched data available";
+if (aggregatedData && aggregatedData.variableAnalysis) {
+  const patterns: string[] = [];
+  
+  Object.entries(aggregatedData.variableAnalysis).forEach(([fieldName, analysis]: [string, any]) => {
+    if (analysis && typeof analysis === 'object' && analysis.summary) {
+      patterns.push(`- ${fieldName}: ${analysis.summary}`);
+    }
+  });
+    
+    Object.entries(aggregatedData.variableAnalysis).forEach(([fieldName, analysis]: [string, any]) => {
+      if (analysis.summary) {
+        patterns.push(`- ${fieldName}: ${analysis.summary}`);
+      }
+    });
+    
+    if (patterns.length > 0) {
+      dataPatterns = patterns.join('\n');
+    }
+  }
+  
+  return `You are a strategic business intelligence analyst generating natural language database queries based on ACTUAL customer data patterns.
 
 BUSINESS CONTEXT:
 - Business: ${businessContext.businessName}
 - Industry: ${businessContext.industry}
 - Business Model: ${businessContext.businessModel}
-- Target Customer: ${businessContext.targetCustomer}
+- Target Customer Assumption: ${businessContext.targetCustomer}
 - Brand Positioning: ${businessContext.brandPositioning}
 - Goals: ${businessContext.goals.join(', ')}
 
 SELECTED VARIABLES ANALYZED: ${variablesList}
 
-KEY INSIGHTS DISCOVERED:
-${insights.substring(0, 1500)}...
+ACTUAL CUSTOMER DATA PATTERNS DISCOVERED:
+${dataPatterns}
 
-YOUR TASK: Generate natural language queries in TWO strategic buckets:
+STRATEGIC INSIGHTS:
+${insights.substring(0, 1000)}...
+
+YOUR TASK: Generate natural language queries that leverage the SPECIFIC data patterns discovered above.
 
 BUCKET 1: MARKET INTELLIGENCE QUERIES
-Generate 3-4 natural language queries that would help this business understand their market landscape, competitive positioning, and customer segments in greater depth. These should be analytical queries that reveal market opportunities and strategic positioning insights.
+Generate 3-4 queries that help understand market dynamics using the actual demographic/economic patterns found. Reference specific income ranges, age groups, or geographic patterns that were discovered.
 
 BUCKET 2: GROWTH AUDIENCE QUERIES  
-Generate 3-4 natural language queries that would help this business identify and size potential growth audiences - finding more customers like their best existing customers. These should focus on audience discovery, market expansion, and prospect identification.
+Generate 3-4 queries to find and size audiences matching the discovered customer profile. Use the actual characteristics found (specific income brackets, real age ranges, actual affinity scores).
 
 REQUIREMENTS:
-- Make queries specific to this business context and industry
-- Reference geographic areas, demographics, or characteristics mentioned in the insights
-- Use natural, business-friendly language (not technical SQL terms)
-- Each query should be actionable and lead to specific business decisions
-- Queries should leverage the variables that were analyzed
+- Reference SPECIFIC data patterns from the analysis above (actual income ranges, real age distributions, discovered geographic concentrations)
+- Use natural business language, not technical terms
+- Make queries actionable for audience sizing and market expansion
+- Focus on the most significant patterns that differ from original assumptions
 
 RESPOND IN JSON FORMAT:
 {
   "marketIntelligence": {
     "category": "Market Intelligence & Competitive Analysis",
-    "description": "Deep analytical queries to understand market dynamics and positioning opportunities",
+    "description": "Deep analytical queries using discovered customer patterns",
     "queries": ["query1", "query2", "query3", "query4"]
   },
   "growthAudiences": {
     "category": "Growth Audience Discovery", 
-    "description": "Prospect identification and market expansion opportunities",
+    "description": "Prospect identification based on actual customer data patterns",
     "queries": ["query1", "query2", "query3", "query4"]
   }
 }
 
-Focus on creating queries that would naturally lead to SQL analysis against a customer intelligence database.`;
+Focus on queries that reference the specific patterns discovered in the data analysis.`;
 }
 
 function generateFallbackQueries(businessContext: BusinessContext, selectedVariables: Variable[]): any {
   const industry = businessContext.industry.toLowerCase();
-  const isRetail = industry.includes('retail') || industry.includes('food');
-  const isRealEstate = industry.includes('real estate');
-  const isProfessionalServices = industry.includes('professional') || industry.includes('services');
-
+  
   let marketQueries = [
     `Analyze demographic composition and income distribution in the top 3 markets for ${businessContext.businessName}`,
     `Compare lifestyle preferences and purchasing behaviors across different age groups in our target geography`,
@@ -98,14 +119,14 @@ function generateFallbackQueries(businessContext: BusinessContext, selectedVaria
     `Estimate market potential for premium segments that match our most profitable customer characteristics`
   ];
 
-  // Customize based on industry
-  if (isRetail) {
+  // Industry-specific customization
+  if (industry.includes('food') || industry.includes('retail')) {
     marketQueries[1] = `Compare shopping behaviors, brand preferences, and spending patterns across different demographic segments`;
     growthQueries[0] = `Count prospects with high disposable income, premium product affinity, and shopping behaviors matching our best customers`;
-  } else if (isRealEstate) {
+  } else if (industry.includes('real estate')) {
     marketQueries[0] = `Analyze homeownership rates, property values, and investment behavior across target neighborhoods`;
     growthQueries[0] = `Count high-net-worth prospects with investment experience and property ownership in target markets`;
-  } else if (isProfessionalServices) {
+  } else if (industry.includes('professional') || industry.includes('services')) {
     marketQueries[1] = `Compare business ownership, professional occupations, and service purchasing patterns across market segments`;
     growthQueries[0] = `Count business owners and professionals with characteristics matching our most engaged clients`;
   }
@@ -127,7 +148,7 @@ function generateFallbackQueries(businessContext: BusinessContext, selectedVaria
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { businessContext, selectedVariables, insights } = body;
+    const { businessContext, selectedVariables, insights, aggregatedData } = body;
 
     if (!businessContext || !selectedVariables || !insights) {
       return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
@@ -141,7 +162,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const prompt = generateQueryPrompt(businessContext, selectedVariables, insights);
+    // Use enhanced prompt that includes aggregated data patterns
+    const prompt = generateEnhancedQueryPrompt(businessContext, selectedVariables, insights, aggregatedData);
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

@@ -270,8 +270,8 @@ YOUR TASK: Generate a strategic brand intelligence report in markdown format tha
 5. Immediate Action Items (5 specific next steps based on findings)
 
 Focus on:
-- Specific gaps between assumptions and actual data reality
-- Actionable repositioning opportunities based on real customer patterns
+- Specific gaps between assumptions and actual data reality, if any
+- Actionable repositioning opportunities based on patterns revealed in data anlyses
 - Concrete business impact and ROI potential from data insights
 - Professional consulting tone
 
@@ -406,7 +406,10 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     const insights = data.content[0].text.trim();
 
-    return NextResponse.json({ insights });
+    return NextResponse.json({ 
+      insights,
+      aggregatedData: aggregatedData || null 
+    });
 
   } catch (error) {
     console.error('Error generating insights:', error);
