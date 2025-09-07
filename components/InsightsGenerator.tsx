@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BusinessContext } from './BusinessContextForm';
 import { Variable } from './VariableSelection';
+import QuerySuggestions from './QuerySuggestions';
 
 interface InsightsGeneratorProps {
   businessContext: BusinessContext;
@@ -295,6 +296,13 @@ Your customer base is **42% more affluent** and **15 years older on average** th
           </div>
         </div>
       </div>
+
+      {/* Add this after the insights report and before the action buttons */}
+      <QuerySuggestions 
+        businessContext={businessContext}
+        selectedVariables={selectedVariables}
+        insights={insights}
+      />
 
       {/* Action Buttons */}
       <div className="flex justify-center space-x-4 mt-8">

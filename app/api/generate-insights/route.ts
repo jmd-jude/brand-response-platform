@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logEnrichmentData } from '../../../lib/logger';
 
 interface BusinessContext {
   businessName: string;
@@ -23,7 +24,7 @@ interface AssumptionComparison {
 }
 
 // Dynamic aggregation engine for any set of variables
-function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: any[]): any {
+function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: Variable[]): any {
   const totalRecords = enrichedCustomers.length;
   const enrichedRecords = enrichedCustomers.filter(c => c.enrichment_source === 'email' || c.enrichment_source === 'pii').length;
   
@@ -346,11 +347,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate aggregated insights from real data if available
-    let aggregatedData = null;
-    if (enrichedCustomers && enrichedCustomers.length > 0) {
-      aggregatedData = aggregateCustomerData(enrichedCustomers, selectedVariables);
-      console.log('Aggregated customer data:', JSON.stringify(aggregatedData, null, 2));
-    }
+      let aggregatedData = null;
+      if (enrichedCustomers && enrichedCustomers.length > 0) {
+        aggregatedData = aggregateCustomerData(enrichedCustomers, selectedVariables);
+        console.log('Aggregated customer data:', JSON.stringify(aggregatedData, null, 2));
+        
+        logEnrichmentData({
+          businessName: businessContext.businessName,
+          industry: businessContext.industry,
+          selectedVariables: selectedVariables.map((v: Variable) => v.variable),
+          aggregatedData
+        }, 'customer_insights_aggregation');
+      }
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {

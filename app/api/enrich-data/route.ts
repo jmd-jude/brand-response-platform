@@ -1,5 +1,6 @@
 // app/api/enrich-data/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { logEnrichmentData } from '../../../lib/logger';
 const crypto = require('crypto');
 
 interface CustomerRecord {
@@ -212,7 +213,7 @@ export async function POST(request: NextRequest) {
     }
     
     console.log(`Enrichment complete: ${successCount}/${recordsToProcess.length} records enhanced`);
-    
+
     return NextResponse.json({
       enrichedCustomers: results,
       stats: {
