@@ -109,7 +109,7 @@ export default function InsightsGenerator({
   };
 
   const generateFallbackInsights = (context: BusinessContext, variables: Variable[]): string => {
-    return `# Customer Intelligence Report
+    return `# BrandIntel Report
 ## ${context.businessName}
 
 ### Executive Summary
@@ -171,7 +171,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       <div className="max-w-4xl mx-auto p-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Generating Strategic Insights
+            Processing...
           </h2>
           <p className="text-gray-600 mb-6">
             Smart analytics is analyzing your customer data and identifying key strategic 
@@ -230,7 +230,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       {/* Page Header */}
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Strategic Customer Intelligence Report
+          BrandIntel Report
         </h2>
         <p className="text-gray-600">
           Smart analytics has analyzed your customer data and identified key strategic 

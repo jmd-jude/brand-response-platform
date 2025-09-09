@@ -105,7 +105,7 @@ export default function QuerySuggestions({
             Generating Strategic Queries
           </h3>
           <p className="text-gray-600">
-            Creating contextual database queries based on your insights...
+            Creating database inqueries based on your objectives...
           </p>
         </div>
       </div>
@@ -130,11 +130,10 @@ export default function QuerySuggestions({
       {/* Section Header */}
       <div className="text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          Strategic Deep Dive Opportunities
+          Audience Growth
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto">
-          Based on your customer intelligence insights, here are contextually relevant queries 
-          to explore your market further and identify growth opportunities.
+          The platform creates understandable queries that will power automated, dynamic 3rd party audience identification and sizing.
         </p>
       </div>
 

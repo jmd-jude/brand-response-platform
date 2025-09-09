@@ -314,7 +314,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {enrichedData.map((customer, index) => (
+              {enrichedData.slice(0, 10).map((customer, index) => (
                 <tr key={customer.customer_id || customer.id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-4 py-4 text-sm font-medium text-gray-900">
                     {customer.customer_id || customer.id || `CUST_${index + 1}`}

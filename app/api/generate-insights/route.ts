@@ -241,7 +241,7 @@ function generateInsightsPrompt(businessContext: BusinessContext, variables: Var
     ? assumptionComparisons.map(comp => `- ${comp.assumption} vs Reality: ${comp.reality} (${comp.insight})`).join('\n')
     : 'No major assumption gaps detected in current data';
 
-  return `You are a strategic brand consultant analyzing customer data to generate actionable insights.
+  return `You are a senior analyst at a marketing services and brand consulting agency. You analyze 1st party customer data to generate actionable insights for the team.
 
 BUSINESS CONTEXT:
 - Business: ${businessContext.businessName}
@@ -261,12 +261,12 @@ ${dataInsights}
 ASSUMPTION VS REALITY GAPS DETECTED:
 ${assumptionText}
 
-YOUR TASK: Generate a strategic brand intelligence report in markdown format that includes:
+YOUR TASK: Generate a 'BrandIntel' report in markdown format that includes:
 
 1. Executive Summary (2-3 sentences of key findings based on actual data)
 2. Customer Reality vs Assumptions table comparing their assumptions vs actual data patterns
 3. Strategic Recommendations (3-4 actionable recommendations based on data insights)
-4. Most Surprising Discovery (1 key insight from the actual data that challenges assumptions)
+4. A Surprising Discovery, If One Exists (1 key insight from the actual data that challenges assumptions. If none, skip.)
 5. Immediate Action Items (5 specific next steps based on findings)
 
 Focus on:
@@ -275,11 +275,11 @@ Focus on:
 - Concrete business impact and ROI potential from data insights
 - Professional consulting tone
 
-Use the actual data patterns provided above rather than hypothetical examples. Base all insights on the real customer analysis.`;
+Use the actual data patterns provided above rather than hypothetical examples. Base all insights on the real customer analysis. Do not exaggerate findings.`;
 }
 
 function generateFallbackInsights(businessContext: BusinessContext, variables: Variable[]): string {
-  return `# Customer Intelligence Report
+  return `# BrandIntel Report
 ## ${businessContext.businessName}
 
 ### Executive Summary
@@ -288,7 +288,7 @@ Analysis of your customer data reveals significant opportunities to refine brand
 
 ### Customer Reality vs. Assumptions
 
-| Aspect | Your Assumption | Data Reality | Strategic Implication |
+| Attribute | Your Assumption | Data Reality | Strategic Implication |
 |--------|----------------|--------------|---------------------|
 | **Primary Age Group** | Young professionals (25-35) | Broader range (30-55, 68% of customers) | Expand messaging to include established professionals |
 | **Income Level** | Mid-range earners | Higher income brackets (58% earn $75K+) | Opportunity for premium positioning |

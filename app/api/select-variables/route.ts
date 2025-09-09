@@ -110,7 +110,7 @@ function generateVariableSelectionPrompt(businessContext: BusinessContext): stri
     .map(v => `- ${v.name}: ${v.description} (${v.category})`)
     .join('\n');
 
-  return `You are a strategic data analyst selecting customer intelligence variables for brand strategy.
+  return `You are a senior data analyst selecting variables to append to 1st party data, the analysis of which will then inform brand strategy.
 
 BUSINESS CONTEXT:
 - Business: ${businessContext.businessName}
@@ -125,11 +125,11 @@ AVAILABLE VARIABLES FROM IDENTITY GRAPH:
 ${variablesText}
 
 SELECTION CRITERIA:
-1. Choose 6-8 variables that directly relate to this business and industry
-2. Prioritize variables that can challenge current customer assumptions
+1. Choose 8-10 variables that directly relate to this business, industry and the goals
+2. Include some variables that can challenge current customer assumptions
 3. Include a strategic mix across different categories (demographics, economic, lifestyle, interests, behavioral)
-4. Focus on variables that inform brand positioning decisions
-5. Consider variables that reveal unexpected customer segments
+4. Focus on variables that will inform brand positioning decisions
+5. Consider variables that will help reveal relevant customer segments
 
 RESPOND WITH VALID JSON ONLY (no markdown formatting):
 {
@@ -137,12 +137,12 @@ RESPOND WITH VALID JSON ONLY (no markdown formatting):
     {
       "variable": "VARIABLE_NAME",
       "category": "category_name", 
-      "rationale": "Specific explanation of why this variable is critical for this business context"
+      "rationale": "Specific explanation of why this variable is critical for this analysis"
     }
   ]
 }
 
-Select variables that will reveal the most surprising and actionable insights about who this business's customers really are.`;
+Select variables that will reveal the most insightful and actionable insights about who this business's customers really are.`;
 }
 
 function getFallbackVariablesForContext(businessContext: BusinessContext): Variable[] {

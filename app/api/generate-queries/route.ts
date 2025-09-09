@@ -71,35 +71,34 @@ ${dataPatterns}
 STRATEGIC INSIGHTS:
 ${insights.substring(0, 1000)}...
 
-YOUR TASK: Generate natural language queries that leverage the SPECIFIC data patterns discovered above.
+YOUR TASK: Generate natural language business queries that leverage the SPECIFIC data patterns discovered above. These will be given to a Senior Analyst who will query an Identity Data Graph database.
 
-BUCKET 1: MARKET INTELLIGENCE QUERIES
-Generate 3-4 queries that help understand market dynamics using the actual demographic/economic patterns found. Reference specific income ranges, age groups, or geographic patterns that were discovered.
+BUCKET 1: MARKET ANALYSIS QUERIES
+Generate 3-4 queries that help understand market dynamics using the actual demographic/economic patterns found. Reference actual data and patterns that were discovered.
 
-BUCKET 2: GROWTH AUDIENCE QUERIES  
-Generate 3-4 queries to find and size audiences matching the discovered customer profile. Use the actual characteristics found (specific income brackets, real age ranges, actual affinity scores).
+BUCKET 2: LOOKALIKE AUDIENCE QUERIES  
+Generate 3-4 queries to find and size audiences matching the discovered customer profile. Use the actual characteristics found in the analyses.
 
 REQUIREMENTS:
-- Reference SPECIFIC data patterns from the analysis above (actual income ranges, real age distributions, discovered geographic concentrations)
+- Reference SPECIFIC data patterns from the analysis above.
 - Use natural business language, not technical terms
-- Make queries actionable for audience sizing and market expansion
-- Focus on the most significant patterns that differ from original assumptions
+- Make queries usable in a 'natural language to SQL' application for audience sizing and market expansion
 
 RESPOND IN JSON FORMAT:
 {
   "marketIntelligence": {
-    "category": "Market Intelligence & Competitive Analysis",
-    "description": "Deep analytical queries using discovered customer patterns",
+    "category": "Market Analysis",
+    "description": "Queries to understand market size and landscape",
     "queries": ["query1", "query2", "query3", "query4"]
   },
   "growthAudiences": {
-    "category": "Growth Audience Discovery", 
-    "description": "Prospect identification based on actual customer data patterns",
+    "category": "Lookalike Audience", 
+    "description": "Find prospects matching discovered customer patterns",
     "queries": ["query1", "query2", "query3", "query4"]
   }
 }
 
-Focus on queries that reference the specific patterns discovered in the data analysis.`;
+Focus on queries that reference the specific patterns discovered in the data analysis. No fancy marketing speak. No AI slop.`;
 }
 
 function generateFallbackQueries(businessContext: BusinessContext, selectedVariables: Variable[]): any {
@@ -133,13 +132,13 @@ function generateFallbackQueries(businessContext: BusinessContext, selectedVaria
 
   return {
     marketIntelligence: {
-      category: "Market Intelligence & Competitive Analysis",
-      description: "Deep analytical queries to understand market dynamics and positioning opportunities",
+      category: "Market Analysis",
+      description: "Queries to understand market size and landscape",
       queries: marketQueries
     },
     growthAudiences: {
       category: "Growth Audience Discovery",
-      description: "Prospect identification and market expansion opportunities", 
+      description: "Find prospects matching discovered customer patterns", 
       queries: growthQueries
     }
   };
