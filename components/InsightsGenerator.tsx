@@ -10,7 +10,7 @@ import QuerySuggestions from './QuerySuggestions';
 interface InsightsGeneratorProps {
   businessContext: BusinessContext;
   selectedVariables: Variable[];
-  enrichedCustomers?: any[]; // Add this prop
+  enrichedCustomers?: any[];
   onComplete: (insights: string) => void;
 }
 
@@ -66,7 +66,7 @@ export default function InsightsGenerator({
         body: JSON.stringify({ 
           businessContext, 
           selectedVariables,
-          enrichedCustomers // Now properly defined
+          enrichedCustomers
         }),
       });
 
@@ -292,9 +292,9 @@ Your customer base is **42% more affluent** and **15 years older on average** th
                 th: ({ node, ...props }) => <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" {...props} />,
                 td: ({ node, ...props }) => <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-t border-gray-200" {...props} />,
                 p: ({ node, ...props }) => <p className="mb-4 text-gray-700 leading-relaxed" {...props} />,
-                ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-2 mb-4 ml-4" {...props} />,
-                ol: ({ node, ...props }) => <ol className="list-decimal list-inside space-y-2 mb-4 ml-4" {...props} />,
-                li: ({ node, ...props }) => <li className="text-gray-700" {...props} />,
+                ol: ({ node, ...props }) => <ol className="list-decimal list-outside space-y-3 mb-6 ml-6 pl-2" {...props} />,
+                ul: ({ node, ...props }) => <ul className="list-disc list-outside space-y-2 mb-4 ml-6 pl-2" {...props} />,
+                li: ({ node, ...props }) => <li className="text-gray-700 leading-relaxed pl-2" {...props} />,
                 strong: ({ node, ...props }) => <strong className="font-semibold text-gray-900" {...props} />,
                 em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
                 hr: ({ node, ...props }) => <hr className="my-8 border-gray-200" {...props} />,
@@ -317,7 +317,6 @@ Your customer base is **42% more affluent** and **15 years older on average** th
         </div>
       </div>
 
-      {/* Add this after the insights report and before the action buttons */}
       <QuerySuggestions 
         businessContext={businessContext}
         selectedVariables={selectedVariables}

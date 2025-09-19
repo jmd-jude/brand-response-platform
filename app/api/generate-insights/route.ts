@@ -239,9 +239,9 @@ function generateInsightsPrompt(businessContext: BusinessContext, variables: Var
   const assumptionComparisons = generateAssumptionComparison(aggregatedData, businessContext);
   const assumptionText = assumptionComparisons.length > 0 
     ? assumptionComparisons.map(comp => `- ${comp.assumption} vs Reality: ${comp.reality} (${comp.insight})`).join('\n')
-    : 'No major assumption gaps detected in current data';
+    : 'Current assumptions appear well-aligned with customer data';
 
-  return `You are a senior analyst at a marketing services and brand consulting agency. You analyze 1st party customer data to generate actionable insights for the team.
+  return `You are a data analyst creating an objective customer intelligence report. Base ALL insights strictly on the actual data provided - avoid assumptions or generalizations.
 
 BUSINESS CONTEXT:
 - Business: ${businessContext.businessName}
@@ -250,6 +250,7 @@ BUSINESS CONTEXT:
 - Current Target Customer Assumption: ${businessContext.targetCustomer}
 - Current Brand Positioning: ${businessContext.brandPositioning}
 - Goals: ${businessContext.goals.join(', ')}
+${businessContext.additionalContext ? `- Additional Context: ${businessContext.additionalContext} **[IMPORTANT: Incorporate this specific context into strategic recommendations and insights.]**` : ''}
 
 SELECTED DATA VARIABLES:
 - ${variablesList}
@@ -258,24 +259,40 @@ ACTUAL CUSTOMER DATA ANALYSIS:
 Based on ${aggregatedData.totalRecords} customer records (${aggregatedData.enrichedRecords} successfully enriched):
 ${dataInsights}
 
-ASSUMPTION VS REALITY GAPS DETECTED:
+DATA-DRIVEN FINDINGS:
 ${assumptionText}
 
-YOUR TASK: Generate a 'BrandIntel' report in markdown format that includes:
+YOUR TASK: Generate a 'BrandIntel' report in markdown format. Structure your analysis around what the DATA ACTUALLY SHOWS, not what you expect to find:
 
-1. Executive Summary (2-3 sentences of key findings based on actual data)
-2. Customer Reality vs Assumptions table comparing their assumptions vs actual data patterns
-3. Strategic Recommendations (3-4 actionable recommendations based on data insights)
-4. A Surprising Discovery, If One Exists (1 key insight from the actual data that challenges assumptions. If none, skip.)
-5. Immediate Action Items (5 specific next steps based on findings)
+1. **Executive Summary** (2-3 sentences summarizing the most significant data patterns found)
 
-Focus on:
-- Specific gaps between assumptions and actual data reality, if any
-- Actionable repositioning opportunities based on patterns revealed in data anlyses
-- Concrete business impact and ROI potential from data insights
-- Professional consulting tone
+2. **Customer Profile Analysis** 
+   - What does the data reveal about who the customers actually are?
+   - What are the strongest/clearest patterns in the data?
+   - Note any data limitations or low-confidence areas
 
-Use the actual data patterns provided above rather than hypothetical examples. Base all insights on the real customer analysis. Do not exaggerate findings.`;
+3. **Strategic Insights** 
+   - What 2-3 strategic opportunities does this customer profile suggest?
+   - What messaging or positioning adjustments are supported by the data?
+   - Only recommend changes if data clearly supports them
+
+4. **Data-Driven Recommendations**
+   - 3-4 specific actions based on the customer patterns found
+   - Include expected impact only if data supports the projection
+   - Acknowledge uncertainty where data is thin
+
+5. **Next Steps for Validation** 
+   - What additional data or research would strengthen these insights?
+   - What assumptions still need testing?
+
+CRITICAL GUIDELINES:
+- If the data shows customers match current assumptions, say so - don't force gaps
+- If data coverage is sparse, acknowledge limitations prominently 
+- Don't recommend "premium positioning" unless income/spending data clearly supports it
+- Base geographic insights only on actual location data found
+- Avoid template language - let the data tell its own story
+
+Focus on being accurate and honest about what the data shows rather than creating dramatic insights.`;
 }
 
 function generateFallbackInsights(businessContext: BusinessContext, variables: Variable[]): string {

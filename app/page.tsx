@@ -13,10 +13,10 @@ export default function Home() {
                 How It Works
               </a>
               <a href="#results" className="text-white/90 hover:text-white transition-colors">
-                Results
+                Case Studies
               </a>
               <Link href="/demo" className="bg-white/20 px-4 py-2 rounded-lg hover:bg-white/30 transition-colors">
-                Try Demo
+                See Demo
               </Link>
             </nav>
           </div>
@@ -29,11 +29,11 @@ export default function Home() {
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Customer Intelligence for
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Smart Brands</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Strategic Agencies</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Transform assumptions into insights. Turn demographic data into strategic brand decisions. 
-              Get enterprise-level customer intelligence at small business scale.
+              Stop guessing about clients' customers. Lead every brand engagement with data-driven insights. 
+              Transform client assumptions into strategic creative advantage.
             </p>
             
             <div className="flex justify-center mb-12">
@@ -41,7 +41,7 @@ export default function Home() {
                 href="/demo"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                See Prototype →
+                See Agency Demo →
               </Link>
             </div>
 
@@ -49,15 +49,15 @@ export default function Home() {
             <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                Enterprise insights
+                10-minute client insights
               </div>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                SMB pricing
+                Strategic differentiation
               </div>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                5-minute setup
+                White-label ready
               </div>
             </div>
           </div>
@@ -69,34 +69,36 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Stop Guessing. Start Growing.
+              From Order-Taker to Strategic Partner
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Many strategic branding decisions are based on assumptions. We fix that.
+              When clients ask "who are our customers?" do you rely on assumptions or data?
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-6">
-                <h3 className="text-xl font-semibold text-red-800 mb-3">❌ The Problem</h3>
+                <h3 className="text-xl font-semibold text-red-800 mb-3">❌ Current Reality</h3>
                 <ul className="space-y-2 text-red-700">
-                  <li>• &quot;We think our customers are millennials&quot;</li>
-                  <li>• &quot;They probably prefer convenience over quality&quot;</li>
-                  <li>• &quot;Our target audience is urban professionals&quot;</li>
-                  <li>• Brand strategies built on assumptions</li>
+                  <li>• "Who do you think your customers are?"</li>
+                  <li>• Relying on client assumptions and guesswork</li>
+                  <li>• Creative decisions without customer data</li>
+                  <li>• Competing on price, not strategic insight</li>
+                  <li>• Reactive relationship: client drives, agency executes</li>
                 </ul>
               </div>
             </div>
 
             <div>
               <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-green-800 mb-3">✅ The Reality</h3>
+                <h3 className="text-xl font-semibold text-green-800 mb-3">✅ With BrandIntel</h3>
                 <ul className="space-y-2 text-green-700">
-                  <li>• &quot;Your customers are 42% more affluent Gen X&quot;</li>
-                  <li>• &quot;73% prioritize quality over convenience&quot;</li>
-                  <li>• &quot;45% live in suburban areas&quot;</li>
-                  <li>• Strategic decisions backed by customer data</li>
+                  <li>• "Here's who your customers actually are..."</li>
+                  <li>• Lead strategy sessions with real demographic data</li>
+                  <li>• Justify creative decisions with customer insights</li>
+                  <li>• Differentiate on strategic intelligence</li>
+                  <li>• Proactive partnership: agency leads with data</li>
                 </ul>
               </div>
             </div>
@@ -104,15 +106,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="how-it-works" className="py-20 bg-gray-50">
+      {/* Value Proposition */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How It Works
+              The Agency Advantage
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Upload customer data, get strategic insights in minutes.
+              Professional-grade customer intelligence without the research budget or timeline.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-2">90%</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Cost Reduction</div>
+              <div className="text-gray-600 text-sm">vs. $25K traditional market research</div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
+              <div className="text-3xl font-bold text-green-600 mb-2">10min</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Turnaround</div>
+              <div className="text-gray-600 text-sm">vs. 6-week research projects</div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">40%</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Project Value</div>
+              <div className="text-gray-600 text-sm">Average engagement increase</div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
+            <h3 className="text-2xl font-bold mb-4">Transform Your Agency Positioning</h3>
+            <p className="text-blue-100 text-lg mb-6 max-w-2xl mx-auto">
+              "Every creative decision we make is backed by actual customer insights" becomes your competitive advantage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Your New Client Process
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Integrate customer intelligence into every brand engagement.
             </p>
           </div>
 
@@ -123,9 +166,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Upload Customer Data</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Discovery Session</h3>
               <p className="text-gray-600">
-                Import your CRM data, email lists, or customer database. Names, emails, addresses - your existing customer information.
+                Lead client discovery with business context questions. Upload their customer data (emails, CRM exports) directly into BrandIntel.
               </p>
             </div>
 
@@ -135,9 +178,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Enterprise-grade Analytics</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Intelligence Enhancement</h3>
               <p className="text-gray-600">
-                Our smart analytics system identifies strategically relevant variables and enhances records with demographic, lifestyle, and behavioral data points.
+                Our AI selects strategic variables and enhances customer records with real demographic, income, lifestyle, and behavioral data.
               </p>
             </div>
 
@@ -147,54 +190,67 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Strategic Recommendations</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Strategic Presentation</h3>
               <p className="text-gray-600">
-                We produce professional, easy-to-read brand intelligence reports comparing assumptions to reality with actionable positioning strategies.
+                Lead client meetings with "Here's who your customers actually are" insights. Use white-labeled reports to drive brand strategy discussions.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Results Section */}
+      {/* Case Study */}
       <section id="results" className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Real Results from Real Data
+              Case Study: Creative Agency Success
             </h2>
             <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-              See how customer intelligence transforms brand strategy
+              How customer intelligence transformed client relationships and project outcomes
             </p>
           </div>
 
           <div className="bg-white/10 rounded-2xl p-8 backdrop-blur-sm">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 className="text-2xl font-semibold mb-4">Roasted Bean Coffee Co.</h3>
-                <div className="space-y-4">
+                <h3 className="text-2xl font-semibold mb-4">Client: Regional Coffee Brand</h3>
+                <h4 className="text-lg font-semibold mb-3 text-yellow-300">Client Assumptions vs. Data Reality</h4>
+                <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span>Customer Age (Reality vs Assumption)</span>
-                    <span className="text-yellow-300 font-semibold">+15 years older</span>
+                    <span>Target Age: "Young millennials"</span>
+                    <span className="text-yellow-300 font-semibold">Reality: 68% age 30-55</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span>Income Level</span>
-                    <span className="text-yellow-300 font-semibold">+42% more affluent</span>
+                    <span>Income: "Mid-market"</span>
+                    <span className="text-yellow-300 font-semibold">Reality: 58% earn $100K+</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span>Quality vs Convenience Priority</span>
-                    <span className="text-yellow-300 font-semibold">73% quality-focused</span>
+                    <span>Location: "Urban focus"</span>
+                    <span className="text-yellow-300 font-semibold">Reality: 45% suburban</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Priority: "Convenience"</span>
+                    <span className="text-yellow-300 font-semibold">Reality: 73% quality-focused</span>
                   </div>
                 </div>
               </div>
               <div>
-                <h4 className="text-xl font-semibold mb-4 text-yellow-300">Strategic Impact</h4>
-                <ul className="space-y-2 text-blue-100">
-                  <li>• Repositioned to premium quality messaging</li>
-                  <li>• Increased average transaction value 31%</li>
-                  <li>• Better brand-customer alignment</li>
-                  <li>• Enhanced customer retention</li>
+                <h4 className="text-xl font-semibold mb-4 text-yellow-300">Agency Results</h4>
+                <ul className="space-y-3 text-blue-100">
+                  <li>• <strong>Led strategy session</strong> with customer reality data</li>
+                  <li>• <strong>Repositioned brand</strong> to premium quality messaging</li>
+                  <li>• <strong>Increased project scope</strong> from $15K to $35K</li>
+                  <li>• <strong>Client satisfaction</strong> - renewed for brand expansion</li>
+                  <li>• <strong>Referral source</strong> - 3 new clients from case study</li>
                 </ul>
+                
+                <div className="mt-6 p-4 bg-white/20 rounded-lg">
+                  <p className="text-sm italic">
+                    "Instead of guessing about our customers, [Agency] showed us exactly who they are. 
+                    The data insights completely changed our brand strategy." - Client CMO
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -205,19 +261,20 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Ready to Transform Your Brand Strategy?
+            Ready to Lead with Customer Intelligence?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Stop making brand decisions based on assumptions. Get customer intelligence that drives real results.
+            Transform your agency from order-taker to strategic partner. See how customer intelligence 
+            elevates every client engagement.
           </p>
           <Link 
             href="/demo"
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-12 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-block"
           >
-            Try the Live Demo →
+            See Agency Demo →
           </Link>
           <p className="text-sm text-gray-500 mt-4">
-            No signup required • Real customer intelligence in minutes
+            Test with real client data • 5-minute setup • White-label ready
           </p>
         </div>
       </section>
@@ -226,14 +283,14 @@ export default function Home() {
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="text-2xl font-bold mb-4">Brand Response</div>
-            <p className="text-gray-400 mb-6">Customer Intelligence for Smart Brands</p>
+            <div className="text-2xl font-bold mb-4">BrandIntel Lab</div>
+            <p className="text-gray-400 mb-6">Customer Intelligence for Strategic Agencies</p>
             <div className="flex justify-center space-x-6 text-sm text-gray-400">
-              <span>Enterprise insights at SMB scale</span>
+              <span>Professional-grade insights</span>
               <span>•</span>
-              <span>5-minute setup</span>
+              <span>10-minute turnaround</span>
               <span>•</span>
-              <span>Actionable recommendations</span>
+              <span>Strategic differentiation</span>
             </div>
           </div>
         </div>

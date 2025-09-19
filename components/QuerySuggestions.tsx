@@ -133,7 +133,7 @@ export default function QuerySuggestions({
           Audience Growth
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto">
-          The platform creates understandable queries that will power automated, dynamic 3rd party audience identification and sizing.
+          The platform produces queries that will power automated, dynamic 3rd party audience identification and sizing.
         </p>
       </div>
 

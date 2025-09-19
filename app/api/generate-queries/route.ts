@@ -62,6 +62,7 @@ BUSINESS CONTEXT:
 - Target Customer Assumption: ${businessContext.targetCustomer}
 - Brand Positioning: ${businessContext.brandPositioning}
 - Goals: ${businessContext.goals.join(', ')}
+- Additional User-Defined Business Context: ${businessContext.additionalContext ? `- Additional Context: ${businessContext.additionalContext} **[IMPORTANT: Incorporate any geographic references into queries logic where appropriate.]**` : ''}
 
 SELECTED VARIABLES ANALYZED: ${variablesList}
 

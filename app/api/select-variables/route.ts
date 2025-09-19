@@ -110,7 +110,7 @@ function generateVariableSelectionPrompt(businessContext: BusinessContext): stri
     .map(v => `- ${v.name}: ${v.description} (${v.category})`)
     .join('\n');
 
-  return `You are a senior data analyst selecting variables to append to 1st party data, the analysis of which will then inform brand strategy.
+  return `You are a senior marketing data analyst selecting variables to append to 1st party data, the analysis of which will be used to inform brand and design strategy.
 
 BUSINESS CONTEXT:
 - Business: ${businessContext.businessName}
@@ -119,16 +119,16 @@ BUSINESS CONTEXT:
 - Target Customer Assumption: ${businessContext.targetCustomer}
 - Brand Positioning: ${businessContext.brandPositioning}
 - Goals: ${businessContext.goals.join(', ')}
-${businessContext.additionalContext ? `- Additional Context: ${businessContext.additionalContext}` : ''}
+${businessContext.additionalContext ? `- Additional Context: ${businessContext.additionalContext} **[IMPORTANT: Consider this context when selecting variables - geographic, industry-specific, or operational details may suggest different variable priorities.]**` : ''}
 
 AVAILABLE VARIABLES FROM IDENTITY GRAPH:
 ${variablesText}
 
 SELECTION CRITERIA:
 1. Choose 8-10 variables that directly relate to this business, industry and the goals
-2. Include some variables that can challenge current customer assumptions
+2. Include some variables that can validate or challenge current customer assumptions
 3. Include a strategic mix across different categories (demographics, economic, lifestyle, interests, behavioral)
-4. Focus on variables that will inform brand positioning decisions
+4. Focus on variables that will inform brand positioning and design decisions
 5. Consider variables that will help reveal relevant customer segments
 
 RESPOND WITH VALID JSON ONLY (no markdown formatting):
@@ -137,12 +137,12 @@ RESPOND WITH VALID JSON ONLY (no markdown formatting):
     {
       "variable": "VARIABLE_NAME",
       "category": "category_name", 
-      "rationale": "Specific explanation of why this variable is critical for this analysis"
+      "rationale": "15-20 word explanation why this variable is relevant to this analysis"
     }
   ]
 }
 
-Select variables that will reveal the most insightful and actionable insights about who this business's customers really are.`;
+Select variables that will reveal insightful and actionable insights about who this business's customers really are.`;
 }
 
 function getFallbackVariablesForContext(businessContext: BusinessContext): Variable[] {
@@ -241,7 +241,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4096,
-        temperature: 0.3,
+        temperature: 0.2,
         messages: [
           {
             role: 'user',

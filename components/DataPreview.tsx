@@ -159,7 +159,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
             Data Enhancement
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Adding customer insights to your data using real identity resolution...
+            Adding data using identity resolution...
           </p>
         </div>
 
@@ -198,7 +198,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
           Enhanced Customer Data
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Your customer data has been enhanced with real intelligence from enterprise identity graph.
+          Your customer data has been enhanced with from the enterprise identity graph.
         </p>
       </div>
 
@@ -274,7 +274,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 bg-green-50">
             <h3 className="text-lg font-semibold text-gray-900">Enhanced Data</h3>
-            <p className="text-sm text-gray-600 mt-1">Real intelligence variables added</p>
+            <p className="text-sm text-gray-600 mt-1">Variables added</p>
           </div>
           <div className="p-4">
             <div className="space-y-3">
@@ -293,7 +293,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-8">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">Enhanced Customer Records</h3>
-          <p className="text-sm text-gray-600 mt-1">Real customer intelligence data from enterprise identity graph</p>
+          <p className="text-sm text-gray-600 mt-1">BrandIntel data from enterprise identity graph</p>
         </div>
         
         <div className="overflow-x-auto">
