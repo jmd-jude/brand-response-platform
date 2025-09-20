@@ -22,8 +22,60 @@ interface AggregatedData {
     category: string;
     coverage: number;
     summary: string;
+    guidance?: string;
     [key: string]: any;
   }>;
+}
+
+interface GuidanceIndicator {
+  variableAnalysis: Record<string, {
+    category: string;
+    coverage: number;
+    summary: string;
+    guidance?: string;
+    [key: string]: any;
+  }>;
+}
+
+function AnalysisGuidancePanel({ aggregatedData }: { aggregatedData: GuidanceIndicator | null }) {
+  if (!aggregatedData || !aggregatedData.variableAnalysis) return null;
+
+  const guidanceEntries = Object.entries(aggregatedData.variableAnalysis)
+    .filter(([, analysis]) => analysis.guidance)
+    .slice(0, 3); // Show top 3 AI guidance examples
+
+  if (guidanceEntries.length === 0) return null;
+
+  return (
+    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+      <div className="flex items-center mb-4">
+        <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h3 className="text-lg font-semibold text-blue-900">AI Analysis Intelligence</h3>
+      </div>
+      <p className="text-blue-800 text-sm mb-4">
+        Strategic analysis parameters dynamically derived based on business context:
+      </p>
+      <div className="space-y-3">
+        {guidanceEntries.map(([fieldName, analysis]) => (
+          <div key={fieldName} className="bg-white rounded-lg p-4 border border-blue-100">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <span className="font-medium text-blue-900 text-sm">
+                  {fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                </span>
+                <p className="text-blue-700 text-xs mt-1">{analysis.guidance}</p>
+              </div>
+              <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full ml-3">
+                Smart Analysis
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function InsightsGenerator({ 
@@ -265,6 +317,9 @@ Your customer base is **42% more affluent** and **15 years older on average** th
           </div>
         </div>
       </div>
+
+      {/* NEW: AI Guidance Panel */}
+      <AnalysisGuidancePanel aggregatedData={aggregatedData} />
 
       {/* Insights Report */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">

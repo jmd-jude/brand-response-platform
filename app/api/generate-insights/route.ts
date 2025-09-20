@@ -23,8 +23,165 @@ interface AssumptionComparison {
   insight: string;
 }
 
+interface AnalysisGuidance {
+  strategy: string;
+  parameters: Record<string, any>;
+  reasoning?: string;
+}
+
+// AI Parameter Guidance Function
+async function getAnalysisGuidance(
+  variable: Variable, 
+  businessContext: BusinessContext, 
+  sampleData: any[]
+): Promise<AnalysisGuidance> {
+  
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    // Fallback to default parameters
+    return getDefaultGuidance(variable, businessContext);
+  }
+
+  const strategyMenu = {
+    incomeThreshold: {
+      description: "Analyze income ranges with business-appropriate threshold",
+      parameters: ["threshold: number (in dollars)", "label: string (description of segment)"]
+    },
+    affinityScoring: {
+      description: "Analyze 1-5 affinity scores with contextual cutoff", 
+      parameters: ["threshold: number (1-5 scale)", "label: string (description of interest level)"]
+    },
+    categoricalDistribution: {
+      description: "Show category percentages with appropriate grouping",
+      parameters: ["topN: number (categories to show)", "groupOthers: boolean"]
+    }
+  };
+
+  const prompt = `You are analyzing a business variable for strategic insights.
+
+BUSINESS CONTEXT:
+- Business: ${businessContext.businessName}
+- Industry: ${businessContext.industry}
+- Business Model: ${businessContext.businessModel}
+- Positioning: ${businessContext.brandPositioning}
+
+VARIABLE TO ANALYZE:
+- Variable: ${variable.variable} (${variable.category})
+- Rationale: ${variable.rationale}
+- Sample data: ${JSON.stringify(sampleData.slice(0, 5))}
+
+AVAILABLE ANALYSIS STRATEGIES:
+${JSON.stringify(strategyMenu, null, 2)}
+
+Select the optimal strategy and parameters based on this business context. For example:
+- Luxury brands might use higher income thresholds ($200K vs $100K)
+- Fitness businesses might use different affinity cutoffs (4+ vs 3+)
+- B2B services might focus on different categorical groupings
+
+Return ONLY valid JSON:
+{
+  "strategy": "incomeThreshold",
+  "parameters": {
+    "threshold": 150000,
+    "label": "qualified luxury buyers"
+  },
+  "reasoning": "Higher threshold appropriate for luxury positioning"
+}`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 512,
+        temperature: 0.3,
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI guidance failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const content = data.content[0].text.trim();
+    
+    // Parse JSON response
+    let guidance;
+    try {
+      const cleanContent = content.replace(/```json\s*/, '').replace(/\s*```$/, '');
+      guidance = JSON.parse(cleanContent);
+    } catch (parseError) {
+      console.error('Error parsing AI guidance:', parseError);
+      return getDefaultGuidance(variable, businessContext);
+    }
+
+    return guidance;
+
+  } catch (error) {
+    console.error('Error getting AI guidance:', error);
+    return getDefaultGuidance(variable, businessContext);
+  }
+}
+
+// Fallback guidance when AI fails
+function getDefaultGuidance(variable: Variable, businessContext: BusinessContext): AnalysisGuidance {
+  if (variable.category === 'economic') {
+    const threshold = businessContext.industry.toLowerCase().includes('luxury') ? 150000 : 100000;
+    return {
+      strategy: 'incomeThreshold',
+      parameters: {
+        threshold,
+        label: threshold > 100000 ? 'affluent customers' : 'high earners'
+      },
+      reasoning: 'Default threshold based on industry type'
+    };
+  }
+  
+  if (variable.category === 'interests') {
+    return {
+      strategy: 'affinityScoring',
+      parameters: {
+        threshold: 3,
+        label: 'strong interest'
+      },
+      reasoning: 'Standard affinity threshold'
+    };
+  }
+
+  return {
+    strategy: 'categoricalDistribution',
+    parameters: {
+      topN: 5,
+      groupOthers: true
+    },
+    reasoning: 'Standard categorical analysis'
+  };
+}
+
+// Utility function to extract income from range strings
+function extractIncomeFromRange(incomeRange: string): number {
+  // Extract numeric value from "$100K to $149K" format
+  const match = incomeRange.match(/\$(\d+)K/);
+  return match ? parseInt(match[1]) * 1000 : 0;
+}
+
 // Dynamic aggregation engine for any set of variables
-function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: Variable[]): any {
+async function aggregateCustomerData(
+  enrichedCustomers: any[], 
+  selectedVariables: Variable[],
+  businessContext: BusinessContext
+): Promise<any> {
   const totalRecords = enrichedCustomers.length;
   const enrichedRecords = enrichedCustomers.filter(c => c.enrichment_source === 'email' || c.enrichment_source === 'pii').length;
   
@@ -35,8 +192,8 @@ function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: Vari
     variableAnalysis: {}
   };
 
-  // Dynamic aggregation based on selected variables
-  selectedVariables.forEach(variable => {
+  // Process each variable with AI guidance
+  for (const variable of selectedVariables) {
     const fieldName = variable.variable;
     const category = variable.category;
     const values = enrichedCustomers
@@ -49,12 +206,15 @@ function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: Vari
         coverage: 0,
         summary: "No data available"
       };
-      return;
+      continue;
     }
 
     const coverage = Math.round((values.length / enrichedRecords) * 100);
     
-    // Different aggregation strategies based on data type and category
+    // Get AI guidance for analysis parameters
+    const guidance = await getAnalysisGuidance(variable, businessContext, values);
+    
+    // Apply guided analysis based on category
     if (category === 'demographics' || category === 'lifestyle' || category === 'behavioral') {
       // Categorical data - show distribution
       const distribution = calculateDistribution(values);
@@ -63,30 +223,33 @@ function aggregateCustomerData(enrichedCustomers: any[], selectedVariables: Vari
         coverage,
         distribution,
         topValue: Object.keys(distribution)[0],
-        summary: `${coverage}% coverage, most common: ${Object.keys(distribution)[0]} (${distribution[Object.keys(distribution)[0]]}%)`
+        summary: `${coverage}% coverage, most common: ${Object.keys(distribution)[0]} (${distribution[Object.keys(distribution)[0]]}%)`,
+        guidance: guidance.reasoning
       };
     } 
     else if (category === 'economic') {
-      // Economic data - show ranges and averages where possible
-      const economicAnalysis = analyzeEconomicData(values);
+      // Economic data with AI-guided thresholds
+      const economicAnalysis = analyzeEconomicData(values, guidance.parameters);
       aggregations.variableAnalysis[fieldName] = {
         category,
         coverage,
         ...economicAnalysis,
-        summary: `${coverage}% coverage, ${economicAnalysis.summary}`
+        summary: `${coverage}% coverage, ${economicAnalysis.summary}`,
+        guidance: guidance.reasoning
       };
     }
     else if (category === 'interests') {
-      // Interest/affinity data - handle numeric scores and boolean flags
-      const interestAnalysis = analyzeInterestData(values, fieldName);
+      // Interest/affinity data with AI-guided cutoffs
+      const interestAnalysis = analyzeInterestData(values, fieldName, guidance.parameters);
       aggregations.variableAnalysis[fieldName] = {
         category,
         coverage,
         ...interestAnalysis,
-        summary: `${coverage}% coverage, ${interestAnalysis.summary}`
+        summary: `${coverage}% coverage, ${interestAnalysis.summary}`,
+        guidance: guidance.reasoning
       };
     }
-  });
+  }
 
   return aggregations;
 }
@@ -111,22 +274,27 @@ function calculateDistribution(values: any[]): Record<string, number> {
   return percentages;
 }
 
-function analyzeEconomicData(values: any[]): any {
+function analyzeEconomicData(values: any[], guidanceParams?: any): any {
   // Handle income ranges like "$100K to $149K" or numeric values
   const incomeRanges = values.filter(v => typeof v === 'string' && v.includes('$'));
   const numericValues = values.filter(v => typeof v === 'number');
 
   if (incomeRanges.length > 0) {
     const distribution = calculateDistribution(incomeRanges);
+    
+    // Use AI guidance or fallback to defaults
+    const threshold = guidanceParams?.threshold || 100000;
+    const label = guidanceParams?.label || 'high earners';
+    
     const highIncomeCount = incomeRanges.filter(range => 
-      range.includes('100K') || range.includes('150K') || range.includes('200K') || range.includes('250K')
+      extractIncomeFromRange(range) >= threshold
     ).length;
     
     return {
       type: 'income_ranges',
       distribution,
       highIncomePercentage: Math.round((highIncomeCount / incomeRanges.length) * 100),
-      summary: `${Math.round((highIncomeCount / incomeRanges.length) * 100)}% earn $100K+`
+      summary: `${Math.round((highIncomeCount / incomeRanges.length) * 100)}% are ${label} ($${Math.round(threshold/1000)}K+)`
     };
   } else if (numericValues.length > 0) {
     const avg = Math.round(numericValues.reduce((a, b) => a + b, 0) / numericValues.length);
@@ -148,15 +316,18 @@ function analyzeEconomicData(values: any[]): any {
   };
 }
 
-function analyzeInterestData(values: any[], fieldName: string): any {
+function analyzeInterestData(values: any[], fieldName: string, guidanceParams?: any): any {
   // Handle affinity scores (1-5), boolean flags (true/false), or categorical data
   const numericValues = values.filter(v => typeof v === 'number');
   const booleanValues = values.filter(v => typeof v === 'boolean');
   
   if (numericValues.length > 0) {
-    // Affinity scores
+    // AI-guided affinity scores
+    const threshold = guidanceParams?.threshold || 3;
+    const label = guidanceParams?.label || 'high interest';
+    
     const avg = numericValues.reduce((a, b) => a + b, 0) / numericValues.length;
-    const highAffinity = numericValues.filter(v => v >= 3).length;
+    const highAffinity = numericValues.filter(v => v >= threshold).length;
     const highAffinityPercent = Math.round((highAffinity / numericValues.length) * 100);
     
     return {
@@ -164,7 +335,7 @@ function analyzeInterestData(values: any[], fieldName: string): any {
       averageScore: Math.round(avg * 10) / 10,
       highAffinityPercentage: highAffinityPercent,
       distribution: calculateDistribution(numericValues),
-      summary: `${highAffinityPercent}% show high interest (3+ score), avg: ${Math.round(avg * 10) / 10}`
+      summary: `${highAffinityPercent}% show ${label} (${threshold}+ score), avg: ${Math.round(avg * 10) / 10}`
     };
   } else if (booleanValues.length > 0) {
     // Boolean interest flags
@@ -364,18 +535,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate aggregated insights from real data if available
-      let aggregatedData = null;
-      if (enrichedCustomers && enrichedCustomers.length > 0) {
-        aggregatedData = aggregateCustomerData(enrichedCustomers, selectedVariables);
-        console.log('Aggregated customer data:', JSON.stringify(aggregatedData, null, 2));
-        
-        logEnrichmentData({
-          businessName: businessContext.businessName,
-          industry: businessContext.industry,
-          selectedVariables: selectedVariables.map((v: Variable) => v.variable),
-          aggregatedData
-        }, 'customer_insights_aggregation');
-      }
+    let aggregatedData = null;
+    if (enrichedCustomers && enrichedCustomers.length > 0) {
+      aggregatedData = await aggregateCustomerData(enrichedCustomers, selectedVariables, businessContext);
+      console.log('Aggregated customer data:', JSON.stringify(aggregatedData, null, 2));
+      
+      logEnrichmentData({
+        businessName: businessContext.businessName,
+        industry: businessContext.industry,
+        selectedVariables: selectedVariables.map((v: Variable) => v.variable),
+        aggregatedData
+      }, 'customer_insights_aggregation');
+    }
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
