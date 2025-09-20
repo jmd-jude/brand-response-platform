@@ -216,17 +216,21 @@ async function aggregateCustomerData(
     
     // Apply guided analysis based on category
     if (category === 'demographics' || category === 'lifestyle' || category === 'behavioral') {
-      // Categorical data - show distribution
       const distribution = calculateDistribution(values);
+      const topEntry = Object.entries(distribution)
+        .sort(([,a], [,b]) => (b as number) - (a as number))[0];
+      
       aggregations.variableAnalysis[fieldName] = {
         category,
         coverage,
         distribution,
-        topValue: Object.keys(distribution)[0],
-        summary: `${coverage}% coverage, most common: ${Object.keys(distribution)[0]} (${distribution[Object.keys(distribution)[0]]}%)`,
+        topValue: topEntry[0],
+        topPercent: topEntry[1],
+        summary: `${coverage}% coverage, most common: ${topEntry[0]} (${topEntry[1]}%)`,
         guidance: guidance.reasoning
       };
-    } 
+    }
+    
     else if (category === 'economic') {
       // Economic data with AI-guided thresholds
       const economicAnalysis = analyzeEconomicData(values, guidance.parameters);
@@ -262,15 +266,20 @@ function calculateDistribution(values: any[]): Record<string, number> {
   });
 
   const total = values.length;
-  const percentages: Record<string, number> = {};
   
-  // Convert to percentages and sort by frequency
-  Object.entries(counts)
-    .sort(([,a], [,b]) => b - a)
-    .forEach(([key, count]) => {
-      percentages[key] = Math.round((count / total) * 100);
-    });
-
+  // DEBUG: Log the raw counts
+  console.log('Raw counts:', counts);
+  console.log('Total values:', total);
+  
+  const sortedEntries = Object.entries(counts).sort(([,a], [,b]) => b - a);
+  console.log('Sorted entries:', sortedEntries);
+  
+  const percentages: Record<string, number> = {};
+  sortedEntries.forEach(([key, count]) => {
+    percentages[key] = Math.round((count / total) * 100);
+  });
+  
+  console.log('Final percentages:', percentages);
   return percentages;
 }
 

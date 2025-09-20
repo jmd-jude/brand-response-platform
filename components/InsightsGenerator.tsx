@@ -78,10 +78,111 @@ function AnalysisGuidancePanel({ aggregatedData }: { aggregatedData: GuidanceInd
   );
 }
 
+// Add this new component after AnalysisGuidancePanel
+function DataSummaryPanel({ aggregatedData }: { aggregatedData: AggregatedData | null }) {
+  const [showDataSummary, setShowDataSummary] = useState(false);
+  
+  if (!aggregatedData || !aggregatedData.variableAnalysis) return null;
+
+  const formatFieldName = (fieldName: string) => {
+    return fieldName
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .replace(/Hh/g, 'HH');
+  };
+
+  const getCategoryColor = (category: string) => {
+    const colors = {
+      demographics: 'bg-blue-100 text-blue-800',
+      economic: 'bg-green-100 text-green-800', 
+      lifestyle: 'bg-purple-100 text-purple-800',
+      interests: 'bg-orange-100 text-orange-800',
+      behavioral: 'bg-pink-100 text-pink-800'
+    };
+    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+  };
+
+  const formatSummaryValue = (analysis: any) => {
+    // Extract key metrics for cleaner display
+    if (analysis.type === 'income_ranges' && analysis.highIncomePercentage) {
+      return `${analysis.highIncomePercentage}% high earners`;
+    }
+    if (analysis.type === 'affinity_score' && analysis.highAffinityPercentage !== undefined) {
+      return `${analysis.highAffinityPercentage}% high interest (avg: ${analysis.averageScore})`;
+    }
+    if (analysis.type === 'numeric' && analysis.average) {
+      return `Average: ${analysis.average.toLocaleString()}`;
+    }
+    if (analysis.topValue) {
+      const percent = analysis.distribution?.[analysis.topValue];
+      return `Most common: ${analysis.topValue}${percent ? ` (${percent}%)` : ''}`;
+    }
+    // Fallback to summary text
+    return analysis.summary?.replace(/^\d+% coverage, /, '') || 'Analysis complete';
+  };
+
+  return (
+    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">Customer Profile Data</h3>
+        <button 
+          onClick={() => setShowDataSummary(!showDataSummary)}
+          className="text-blue-600 text-sm hover:text-blue-700 transition-colors"
+        >
+          {showDataSummary ? 'Hide' : 'Show'} Analysis Details
+        </button>
+      </div>
+      
+      {showDataSummary && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.entries(aggregatedData.variableAnalysis).map(([field, analysis]) => (
+            <div key={field} className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-shadow">
+              <div className="flex justify-between items-start mb-2">
+                <h4 className="font-medium text-gray-900 text-sm">
+                  {formatFieldName(field)}
+                </h4>
+                <span className={`text-xs px-2 py-1 rounded-full ${getCategoryColor(analysis.category)}`}>
+                  {analysis.category}
+                </span>
+              </div>
+              
+              <div className="text-xs text-gray-500 mb-2">
+                {analysis.coverage}% data coverage
+              </div>
+              
+              <div className="text-sm text-gray-800 font-medium">
+                {formatSummaryValue(analysis)}
+              </div>
+              
+              {/* Optional: Show distribution bars for categorical data */}
+              {analysis.distribution && Object.keys(analysis.distribution).length <= 4 && (
+                <div className="mt-3 space-y-1">
+                  {Object.entries(analysis.distribution).slice(0, 3).map(([key, percent]) => (
+                    <div key={key} className="flex items-center text-xs">
+                      <span className="w-16 truncate text-gray-600">{key}</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-1.5 mx-2">
+                        <div 
+                          className="bg-blue-500 h-1.5 rounded-full" 
+                          style={{ width: `${Math.min(percent as number, 100)}%` }}
+                        />
+                      </div>
+                      <span className="text-gray-800 w-8">{percent as number}%</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function InsightsGenerator({ 
   businessContext, 
   selectedVariables, 
-  enrichedCustomers = [], // Default to empty array
+  enrichedCustomers = [],
   onComplete 
 }: InsightsGeneratorProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -168,7 +269,7 @@ export default function InsightsGenerator({
 
 Analysis of your customer data reveals significant opportunities to refine brand positioning and targeting strategy. Key findings challenge several current assumptions about your customer base, particularly around age demographics and income levels.
 
-### Customer Reality vs. Assumptions
+### Customer Reality v. Assumptions
 
 | Aspect | Your Assumption | Data Reality | Strategic Implication |
 |--------|----------------|--------------|---------------------|
@@ -320,6 +421,9 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 
       {/* NEW: AI Guidance Panel */}
       <AnalysisGuidancePanel aggregatedData={aggregatedData} />
+
+      {/* NEW: Data Summary Panel */}
+      <DataSummaryPanel aggregatedData={aggregatedData} />
 
       {/* Insights Report */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
