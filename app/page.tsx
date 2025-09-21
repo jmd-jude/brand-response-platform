@@ -32,8 +32,8 @@ export default function Home() {
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Strategic Agencies</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Stop guessing about clients' customers. Lead every brand engagement with data-driven insights. 
-              Transform client assumptions into strategic creative advantage.
+              Lead every brand engagement with data-driven insights. 
+              Transform client assumptions into empirical strategic creative advantage.
             </p>
             
             <div className="flex justify-center mb-12">
@@ -69,10 +69,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              From Order-Taker to Strategic Partner
+              Elevate the Discovery Process
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              When clients ask "who are our customers?" do you rely on assumptions or data?
+              When clients describe their current customers, do you rely on their assumptions or on real data?
             </p>
           </div>
 
@@ -264,7 +264,7 @@ export default function Home() {
             Ready to Lead with Customer Intelligence?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Transform your agency from order-taker to strategic partner. See how customer intelligence 
+            Transform your discovery process. See how customer intelligence 
             elevates every client engagement.
           </p>
           <Link 
@@ -288,7 +288,7 @@ export default function Home() {
             <div className="flex justify-center space-x-6 text-sm text-gray-400">
               <span>Professional-grade insights</span>
               <span>•</span>
-              <span>10-minute turnaround</span>
+              <span>Rapid turnaround</span>
               <span>•</span>
               <span>Strategic differentiation</span>
             </div>
