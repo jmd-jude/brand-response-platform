@@ -20,7 +20,7 @@ const industries = [
   'Food & Beverage',
   'Retail',
   'Professional Services',
-  'Healthcare',
+  'Personal Wellness',
   'Technology',
   'Real Estate',
   'Financial Services',
@@ -46,7 +46,7 @@ const availableGoals = [
   'Identify market positioning opportunities',
   'Optimize marketing messaging',
   'Competitive differentiation',
-  'Target audience refinement',
+  'Target audience development',
   'Brand strategy validation'
 ];
 

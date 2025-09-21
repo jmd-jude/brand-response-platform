@@ -37,49 +37,77 @@ interface GuidanceIndicator {
   }>;
 }
 
-function AnalysisGuidancePanel({ aggregatedData }: { aggregatedData: GuidanceIndicator | null }) {
+function AnalysisGuidancePanel({ 
+  aggregatedData, 
+  businessContext 
+}: { 
+  aggregatedData: GuidanceIndicator | null;
+  businessContext: BusinessContext;
+}) {
+  const [showGuidance, setShowGuidance] = useState(false);
+  
   if (!aggregatedData || !aggregatedData.variableAnalysis) return null;
 
   const guidanceEntries = Object.entries(aggregatedData.variableAnalysis)
     .filter(([, analysis]) => analysis.guidance)
-    .slice(0, 3); // Show top 3 AI guidance examples
+    .slice(0, 3);
 
   if (guidanceEntries.length === 0) return null;
 
   return (
     <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-      <div className="flex items-center mb-4">
-        <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-        <h3 className="text-lg font-semibold text-blue-900">AI Analysis Intelligence</h3>
+      <div className="flex items-center justify-between mb-4"> {/* Change to justify-between */}
+        <div className="flex items-center">
+          <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+          <h3 className="text-lg font-semibold text-blue-900">BrandIntel™ Custom Analytics</h3>
+        </div>
+        {/* Add toggle button */}
+        <button 
+          onClick={() => setShowGuidance(!showGuidance)}
+          className="text-blue-600 text-sm hover:text-blue-700 transition-colors"
+        >
+          {showGuidance ? 'Hide' : 'Show'} Details
+        </button>
       </div>
+      
       <p className="text-blue-800 text-sm mb-4">
-        Strategic analysis parameters dynamically derived based on business context:
+        Optimized for {businessContext.businessName}:
       </p>
-      <div className="space-y-3">
-        {guidanceEntries.map(([fieldName, analysis]) => (
-          <div key={fieldName} className="bg-white rounded-lg p-4 border border-blue-100">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <span className="font-medium text-blue-900 text-sm">
-                  {fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+      
+      {/* Wrap content in conditional */}
+      {showGuidance && (
+        <div className="space-y-3">
+          {guidanceEntries.map(([fieldName, analysis]) => (
+            <div key={fieldName} className="bg-white rounded-lg p-4 border border-blue-100">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <span className="font-medium text-blue-900 text-sm">
+                    {fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </span>
+                  <p className="text-blue-700 text-xs mt-1">{analysis.guidance}</p>
+                </div>
+                <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full ml-3">
+                  Smart Analysis
                 </span>
-                <p className="text-blue-700 text-xs mt-1">{analysis.guidance}</p>
               </div>
-              <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full ml-3">
-                Smart Analysis
-              </span>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-// Add this new component after AnalysisGuidancePanel
-function DataSummaryPanel({ aggregatedData }: { aggregatedData: AggregatedData | null }) {
+// Data Summary Panel
+function DataSummaryPanel({ 
+  aggregatedData, 
+  businessContext 
+}: { 
+  aggregatedData: GuidanceIndicator | null;
+  businessContext: BusinessContext;
+}) {
   const [showDataSummary, setShowDataSummary] = useState(false);
   
   if (!aggregatedData || !aggregatedData.variableAnalysis) return null;
@@ -124,14 +152,23 @@ function DataSummaryPanel({ aggregatedData }: { aggregatedData: AggregatedData |
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Customer Profile Data</h3>
+        <div className="flex items-center">
+        <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h3 className="text-lg font-semibold text-gray-900">BrandIntel™ Customer Profile Insights</h3>
+        </div>
         <button 
           onClick={() => setShowDataSummary(!showDataSummary)}
           className="text-blue-600 text-sm hover:text-blue-700 transition-colors"
         >
-          {showDataSummary ? 'Hide' : 'Show'} Analysis Details
+          {showDataSummary ? 'Hide' : 'Show'} Details
         </button>
       </div>
+
+      <p className="text-blue-800 text-sm mb-4">
+        Data Summaries for {businessContext.businessName}:
+      </p>
       
       {showDataSummary && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -262,7 +299,7 @@ export default function InsightsGenerator({
   };
 
   const generateFallbackInsights = (context: BusinessContext, variables: Variable[]): string => {
-    return `# BrandIntel Report
+    return `# BrandIntel™ Report
 ## ${context.businessName}
 
 ### Executive Summary
@@ -315,7 +352,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
 - **Higher profit margins** on products/services positioned as premium offerings
 
 ---
-**BrandIntel Lab Customer Intelligence Analysis**  
+**BrandIntel™ Lab Customer Intelligence Analysis**  
 *Report generated from ${variables.length} strategic variables*`;
   };
 
@@ -383,7 +420,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
       {/* Page Header */}
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          BrandIntel Report
+          BrandIntel™ Lab Report
         </h2>
         <p className="text-gray-600">
           Smart analytics has analyzed your customer data and identified key strategic 
@@ -419,16 +456,22 @@ Your customer base is **42% more affluent** and **15 years older on average** th
         </div>
       </div>
 
-      {/* NEW: AI Guidance Panel */}
-      <AnalysisGuidancePanel aggregatedData={aggregatedData} />
-
-      {/* NEW: Data Summary Panel */}
-      <DataSummaryPanel aggregatedData={aggregatedData} />
+      {/* Data Summary Panel */}
+      <DataSummaryPanel
+       aggregatedData={aggregatedData}
+       businessContext={businessContext}
+       />
+      
+      {/* AI Guidance Panel */}
+      <AnalysisGuidancePanel
+       aggregatedData={aggregatedData}
+       businessContext={businessContext}
+       />
 
       {/* Insights Report */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
-          <h3 className="text-xl font-bold text-gray-900">BrandIntel Lab Report</h3>
+          <h3 className="text-xl font-bold text-gray-900">BrandIntel™ Lab Report</h3>
           <p className="text-sm text-gray-600 mt-1">{businessContext.businessName} • {businessContext.industry}</p>
         </div>
         
@@ -467,7 +510,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
         <div className="px-8 py-4 bg-gray-50 border-t border-gray-200">
           <div className="flex justify-between items-center text-sm text-gray-600">
             <div>
-              <strong>BrandIntel</strong> Customer Intelligence Analysis
+              <strong>BrandIntel™</strong> Customer Analysis & Insights
             </div>
             <div>
               {selectedVariables.length} variables analyzed • {enrichedCustomers.length} customer records processed

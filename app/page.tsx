@@ -7,7 +7,7 @@ export default function Home() {
       <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div className="text-2xl font-bold">BrandIntel Lab</div>
+            <div className="text-2xl font-bold">BrandIntel™ Lab</div>
             <nav className="hidden md:flex space-x-8">
               <a href="#how-it-works" className="text-white/90 hover:text-white transition-colors">
                 How It Works
@@ -92,7 +92,7 @@ export default function Home() {
 
             <div>
               <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-green-800 mb-3">✅ With BrandIntel</h3>
+                <h3 className="text-xl font-semibold text-green-800 mb-3">✅ With BrandIntel™</h3>
                 <ul className="space-y-2 text-green-700">
                   <li>• "Here's who your customers actually are..."</li>
                   <li>• Lead strategy sessions with real demographic data</li>
@@ -168,7 +168,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Discovery Session</h3>
               <p className="text-gray-600">
-                Lead client discovery with business context questions. Upload their customer data (emails, CRM exports) directly into BrandIntel.
+                Lead client discovery with business context questions. Upload their customer data (emails, CRM exports) directly into BrandIntel™ Lab.
               </p>
             </div>
 
@@ -283,7 +283,7 @@ export default function Home() {
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="text-2xl font-bold mb-4">BrandIntel Lab</div>
+            <div className="text-2xl font-bold mb-4">BrandIntel™ Lab</div>
             <p className="text-gray-400 mb-6">Customer Intelligence for Strategic Agencies</p>
             <div className="flex justify-center space-x-6 text-sm text-gray-400">
               <span>Professional-grade insights</span>

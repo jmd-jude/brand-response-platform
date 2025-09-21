@@ -99,7 +99,7 @@ Return ONLY valid JSON:
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 512,
-        temperature: 0.3,
+        temperature: 0.1,
         messages: [
           {
             role: 'user',
@@ -584,7 +584,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4096,
-        temperature: 0.7,
+        temperature: 0.4,
         messages: [
           {
             role: 'user',

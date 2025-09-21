@@ -130,7 +130,7 @@ export default function QuerySuggestions({
       {/* Section Header */}
       <div className="text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          Audience Growth
+          Brand Growth
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto">
           The platform produces queries that will power automated, dynamic 3rd party audience identification and sizing.
