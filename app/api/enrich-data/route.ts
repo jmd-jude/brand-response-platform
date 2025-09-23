@@ -100,16 +100,31 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
 
   try {
     // Try email lookup first (most reliable)
-    if (email) {
-      console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
+    // Try email lookup first (most reliable)
+if (email) {
+  console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
 
-      const response = await fetch('/api/enrichment-proxy', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email })
-  });
+  let response; // Declare response variable here
+
+  // Use direct API in development, proxy in production
+  if (process.env.NODE_ENV === 'development') {
+    // Original direct API call for local development
+    const url = `${process.env.AA_ORIGIN}/v2/identities/byEmail?email=${email}`;
+    response = await fetch(url, {
+      headers: {
+        'Authorization': createAuthHeader(),
+        'Content-Type': 'application/json'
+      }
+    });
+  } else {
+    response = await fetch('/api/enrichment-proxy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email })
+    });
+  }
 
   console.log('API Response Status:', response.status);
   
