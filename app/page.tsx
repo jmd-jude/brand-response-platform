@@ -29,7 +29,7 @@ export default function Home() {
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Customer Intelligence for
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Strategic Agencies</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Innovative Agencies</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
               Lead every brand engagement with data-driven insights. 
@@ -111,7 +111,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              The Agency Advantage
+              The Agency Benefits
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Professional-grade customer intelligence without the research budget or timeline.
@@ -126,15 +126,15 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">10min</div>
+              <div className="text-3xl font-bold text-green-600 mb-2">Rapid</div>
               <div className="text-lg font-semibold text-gray-900 mb-2">Turnaround</div>
-              <div className="text-gray-600 text-sm">vs. 6-week research projects</div>
+              <div className="text-gray-600 text-sm">vs. expensive 6-week research projects</div>
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">40%</div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">$ Increased $</div>
               <div className="text-lg font-semibold text-gray-900 mb-2">Project Value</div>
-              <div className="text-gray-600 text-sm">Average engagement increase</div>
+              <div className="text-gray-600 text-sm">New, incremental revenue stream</div>
             </div>
           </div>
 
@@ -152,7 +152,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Your New Client Process
+              Improve the Client Process
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Integrate customer intelligence into every brand engagement.
@@ -284,7 +284,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4">BrandIntel™ Lab</div>
-            <p className="text-gray-400 mb-6">Customer Intelligence for Strategic Agencies</p>
+            <p className="text-gray-400 mb-6">Customer Intelligence for Innovative Agencies</p>
             <div className="flex justify-center space-x-6 text-sm text-gray-400">
               <span>Professional-grade insights</span>
               <span>•</span>
