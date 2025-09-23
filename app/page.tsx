@@ -180,7 +180,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Intelligent Enhancement</h3>
               <p className="text-gray-600">
-                Our AI selects strategic variables and enhances customer records with real demographic, income, lifestyle, and behavioral data.
+                Our AI selects strategic variables and enhances customer records with relevant demographic, income, lifestyle, and behavioral data.
               </p>
             </div>
 
