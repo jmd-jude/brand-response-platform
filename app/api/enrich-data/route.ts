@@ -104,7 +104,7 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
 if (email) {
   console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
 
-  let response; // Declare response variable here
+  let response;
 
   // Use direct API in development, proxy in production
   if (process.env.NODE_ENV === 'development') {
@@ -117,7 +117,7 @@ if (email) {
       }
     });
   } else {
-    response = await fetch('/api/enrichment-proxy', {
+    response = await fetch('https://brand-response-platform.vercel.app/api/enrichment-proxy', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
