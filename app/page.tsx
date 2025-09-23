@@ -264,7 +264,7 @@ export default function Home() {
             Ready to Lead with Customer Intelligence?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Transform your discovery process. See how customer intelligence 
+            Transform the discovery process. See how customer intelligence 
             elevates every client engagement.
           </p>
           <Link 
