@@ -131,7 +131,7 @@ export default function VariableSelection({ businessContext, onVariablesSelected
             Variable Selection Processing
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Analyzing your business context to select the most strategic data variables...
+            Analyzing business context to select the most strategic data variables...
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export default function VariableSelection({ businessContext, onVariablesSelected
           Recommended Variables & Strategic Rationale
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Smart analytics selected these variables based on your business context and strategic goals.
+          Smart analytics selected these variables based on business context and strategic goals.
         </p>
       </div>
 

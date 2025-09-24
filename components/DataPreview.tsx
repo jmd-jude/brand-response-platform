@@ -198,7 +198,7 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
           Enhanced Customer Data
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Your customer data has been enhanced with from the enterprise identity graph.
+          Customer data has been enhanced with from the enterprise identity graph.
         </p>
       </div>
 

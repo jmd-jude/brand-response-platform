@@ -304,11 +304,11 @@ export default function InsightsGenerator({
 
 ### Executive Summary
 
-Analysis of your customer data reveals significant opportunities to refine brand positioning and targeting strategy. Key findings challenge several current assumptions about your customer base, particularly around age demographics and income levels.
+Analysis of customer data reveals significant opportunities to refine brand positioning and targeting strategy. Key findings challenge several current assumptions about the customer base, particularly around age demographics and income levels.
 
 ### Customer Reality v. Assumptions
 
-| Aspect | Your Assumption | Data Reality | Strategic Implication |
+| Aspect | Assumption | Data Reality | Strategic Implication |
 |--------|----------------|--------------|---------------------|
 | **Primary Age Group** | Young professionals (25-35) | Broader range (30-55, 68% of customers) | Expand messaging to include established professionals |
 | **Income Level** | Mid-range earners | Higher income brackets (58% earn $75K+) | Opportunity for premium positioning |
@@ -336,7 +336,7 @@ Test 15-25% price increases on core products/services, supported by enhanced qua
 
 ### Most Surprising Discovery
 
-Your customer base is **42% more affluent** and **15 years older on average** than your current brand positioning targets. This represents significant untapped potential for premium positioning and pricing strategy.
+The customer base is **42% more affluent** and **15 years older on average** than current brand positioning targets. This represents significant untapped potential for premium positioning and pricing strategy.
 
 ### Immediate Action Items
 
@@ -364,7 +364,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
             Processing...
           </h2>
           <p className="text-gray-600 mb-6">
-            Smart analytics is analyzing your customer data and identifying key strategic 
+            Smart analytics is analyzing customer data and identifying  
             opportunities for brand positioning and growth.
           </p>
           
@@ -423,7 +423,7 @@ Your customer base is **42% more affluent** and **15 years older on average** th
           BrandIntel™ Lab Report
         </h2>
         <p className="text-gray-600">
-          Smart analytics has analyzed your customer data and identified key strategic 
+          Smart analytics has analyzed customer data and identified 
           opportunities for brand positioning and growth.
         </p>
       </div>

@@ -94,55 +94,41 @@ function extractRelevantData(identity: any, requestedFields: string[]): any {
 }
 
 // Enrich a single customer record
+// Enrich a single customer record
 async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariables: Variable[]): Promise<CustomerRecord> {
   const { email, first_name, last_name, city, state } = customerData;
   const requestedFields = selectedVariables.map(v => v.variable);
 
   try {
     // Try email lookup first (most reliable)
-    // Try email lookup first (most reliable)
-if (email) {
-  console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
+    if (email) {
+      console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
 
-  let response;
+      const url = `${process.env.AA_ORIGIN}/v2/identities/byEmail?email=${email}`;
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': createAuthHeader(),
+          'Content-Type': 'application/json'
+        }
+      });
 
-  // Use direct API in development, proxy in production
-  if (process.env.NODE_ENV === 'development') {
-    // Original direct API call for local development
-    const url = `${process.env.AA_ORIGIN}/v2/identities/byEmail?email=${email}`;
-    response = await fetch(url, {
-      headers: {
-        'Authorization': createAuthHeader(),
-        'Content-Type': 'application/json'
+      console.log('API Response Status:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.identities && data.identities.length > 0) {
+          const enrichedFields = extractRelevantData(data.identities[0], requestedFields);
+          return {
+            ...customerData,
+            ...enrichedFields,
+            enrichment_source: 'email'
+          };
+        }
+      } else {
+        const responseText = await response.text();
+        console.log('Raw API response:', responseText.slice(0, 500));
       }
-    });
-  } else {
-    response = await fetch('https://brand-response-platform.vercel.app/api/enrichment-proxy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email })
-    });
-  }
-
-  console.log('API Response Status:', response.status);
-  
-  if (response.ok) {
-    const data = await response.json();
-    if (data.identities && data.identities.length > 0) {
-      const enrichedFields = extractRelevantData(data.identities[0], requestedFields);
-      return {
-        ...customerData,
-        ...enrichedFields,
-        enrichment_source: 'email'
-      };
     }
-  } else {
-    const responseText = await response.text();
-    console.log('Raw API response:', responseText.slice(0, 500));
-  }
-}
     
     // Fallback to name + location if email fails
     if (first_name && last_name && (city || state)) {

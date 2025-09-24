@@ -98,7 +98,7 @@ export default function BusinessContextForm({ onSubmit }: BusinessContextFormPro
           Business Context
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Tell us about your business so we can select the most strategically relevant data variables for analysis.
+          Describe the business so we can select the most strategically relevant data variables for analysis.
         </p>
       </div>
 
@@ -163,7 +163,7 @@ export default function BusinessContextForm({ onSubmit }: BusinessContextFormPro
         {/* Target Customer */}
         <div className="mb-6">
           <label htmlFor="targetCustomer" className="block text-sm font-semibold text-gray-900 mb-2">
-            Who do you think your customers are?
+            Describe the core target customer?
           </label>
           <textarea
             id="targetCustomer"
@@ -180,7 +180,7 @@ export default function BusinessContextForm({ onSubmit }: BusinessContextFormPro
         {/* Brand Positioning */}
         <div className="mb-6">
           <label htmlFor="brandPositioning" className="block text-sm font-semibold text-gray-900 mb-2">
-            How do you currently position your brand?
+            How is the brand currently positioned?
           </label>
           <textarea
             id="brandPositioning"
@@ -197,7 +197,7 @@ export default function BusinessContextForm({ onSubmit }: BusinessContextFormPro
         {/* Goals */}
         <div className="mb-6">
           <label className="block text-sm font-semibold text-gray-900 mb-3">
-            What are your main goals for this analysis?
+            What are the main goals for this analysis?
           </label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {availableGoals.map(goal => (
@@ -226,7 +226,7 @@ export default function BusinessContextForm({ onSubmit }: BusinessContextFormPro
             onChange={handleInputChange}
             rows={3}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            placeholder="Any other relevant information about your business, customers, or market..."
+            placeholder="Any other relevant information about the business, customers, or market..."
           />
         </div>
 

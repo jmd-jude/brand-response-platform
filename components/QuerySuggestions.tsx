@@ -105,7 +105,7 @@ export default function QuerySuggestions({
             Generating Strategic Queries
           </h3>
           <p className="text-gray-600">
-            Creating database inqueries based on your objectives...
+            Creating database inqueries based on objectives...
           </p>
         </div>
       </div>
@@ -213,10 +213,10 @@ export default function QuerySuggestions({
 
       {/* Action Section */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl text-white p-8 text-center">
-        <h3 className="text-xl font-bold mb-4">Ready to Explore Your Data?</h3>
+        <h3 className="text-xl font-bold mb-4">Ready to Discover New Audiences?</h3>
         <p className="text-purple-100 mb-6 max-w-2xl mx-auto">
-          Copy any query above and paste it into the natural language data explorer 
-          to get instant SQL-powered analysis of your customer intelligence database.
+          Copy any query above and paste it into our natural language data explorer 
+          to get instant analysis with our customer intelligence database.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

@@ -155,7 +155,7 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
           Customer Data Upload
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Upload your customer data CSV file or use our sample data to see how customer intelligence analysis works.
+          Upload customer data CSV file or use our sample data to see how customer intelligence analysis works.
         </p>
       </div>
 
@@ -170,7 +170,7 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Upload Your Customer Data
+                Upload Customer Data
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 CSV file with customer emails, names, and locations
@@ -259,7 +259,7 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <span className="text-green-800 font-medium">
-                Successfully loaded {customerData.length} customer records {dataSource === 'uploaded' ? 'from your CSV file' : 'from sample data'}
+                Successfully loaded {customerData.length} customer records {dataSource === 'uploaded' ? 'from CSV file' : 'from sample data'}
               </span>
             </div>
           </div>
