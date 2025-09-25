@@ -171,7 +171,6 @@ function getDefaultGuidance(variable: Variable, businessContext: BusinessContext
 
 // Utility function to extract income from range strings
 function extractIncomeFromRange(incomeRange: string): number {
-  // Extract numeric value from "$100K to $149K" format
   const match = incomeRange.match(/\$(\d+)K/);
   return match ? parseInt(match[1]) * 1000 : 0;
 }
@@ -267,7 +266,7 @@ function calculateDistribution(values: any[]): Record<string, number> {
 
   const total = values.length;
   
-  // DEBUG: Log the raw counts
+  // Log the raw counts
   console.log('Raw counts:', counts);
   console.log('Total values:', total);
   
@@ -347,7 +346,6 @@ function analyzeInterestData(values: any[], fieldName: string, guidanceParams?: 
       summary: `${highAffinityPercent}% show ${label} (${threshold}+ score), avg: ${Math.round(avg * 10) / 10}`
     };
   } else if (booleanValues.length > 0) {
-    // Boolean interest flags
     const trueCount = booleanValues.filter(v => v === true).length;
     const truePercent = Math.round((trueCount / booleanValues.length) * 100);
     
@@ -584,7 +582,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4096,
-        temperature: 0.4,
+        temperature: 0.3,
         messages: [
           {
             role: 'user',

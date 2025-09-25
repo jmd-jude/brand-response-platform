@@ -50,20 +50,19 @@ function AnalysisGuidancePanel({
 
   const guidanceEntries = Object.entries(aggregatedData.variableAnalysis)
     .filter(([, analysis]) => analysis.guidance)
-    .slice(0, 3);
+    .slice(0, 9);
 
   if (guidanceEntries.length === 0) return null;
 
   return (
     <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-      <div className="flex items-center justify-between mb-4"> {/* Change to justify-between */}
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
           <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
           <h3 className="text-lg font-semibold text-blue-900">BrandIntel™ Custom Analytics</h3>
         </div>
-        {/* Add toggle button */}
         <button 
           onClick={() => setShowGuidance(!showGuidance)}
           className="text-blue-600 text-sm hover:text-blue-700 transition-colors"
@@ -131,7 +130,12 @@ function DataSummaryPanel({
   };
 
   const formatSummaryValue = (analysis: any) => {
-    // Extract key metrics for cleaner display
+    // Use AI-guided visualization when available
+    if (analysis.guidance) {
+      return formatGuidedVisualization(analysis);
+    }
+    
+    // Fallback to existing logic
     if (analysis.type === 'income_ranges' && analysis.highIncomePercentage) {
       return `${analysis.highIncomePercentage}% high earners`;
     }
@@ -145,8 +149,36 @@ function DataSummaryPanel({
       const percent = analysis.distribution?.[analysis.topValue];
       return `Most common: ${analysis.topValue}${percent ? ` (${percent}%)` : ''}`;
     }
-    // Fallback to summary text
     return analysis.summary?.replace(/^\d+% coverage, /, '') || 'Analysis complete';
+  };
+
+  const formatGuidedVisualization = (analysis: any) => {
+    const { type, guidance, highIncomePercentage, highAffinityPercentage, averageScore } = analysis;
+    
+    if (type === 'income_ranges' && highIncomePercentage !== undefined) {
+      // Extract threshold from guidance for display
+      const guidanceText = guidance.toLowerCase();
+      const thresholdMatch = guidanceText.match(/\$(\d+)k/);
+      const threshold = thresholdMatch ? `$${thresholdMatch[1]}K` : '$100K';
+      return `${highIncomePercentage}% earn ${threshold}+ `;
+    }
+    
+    if (type === 'affinity_score' && highAffinityPercentage !== undefined) {
+      return `${highAffinityPercentage}% high affinity (Scored, avg: ${averageScore})`;
+    }
+    
+    if (type === 'boolean_flag') {
+      const percent = analysis.positivePercentage || 0;
+      return `${percent}% positive`;
+    }
+    
+    // Categorical with AI guidance
+    if (analysis.topValue && analysis.topPercent) {
+      return `${analysis.topPercent}% ${analysis.topValue}`;
+    }
+    
+    // Fallback
+    return analysis.summary?.replace(/^\d+% coverage, /, '') || 'AI-guided analysis';
   };
 
   return (
@@ -191,23 +223,23 @@ function DataSummaryPanel({
                 {formatSummaryValue(analysis)}
               </div>
               
-              {/* Optional: Show distribution bars for categorical data */}
-              {analysis.distribution && Object.keys(analysis.distribution).length <= 4 && (
-                <div className="mt-3 space-y-1">
-                  {Object.entries(analysis.distribution).slice(0, 3).map(([key, percent]) => (
-                    <div key={key} className="flex items-center text-xs">
-                      <span className="w-16 truncate text-gray-600">{key}</span>
-                      <div className="flex-1 bg-gray-200 rounded-full h-1.5 mx-2">
-                        <div 
-                          className="bg-blue-500 h-1.5 rounded-full" 
-                          style={{ width: `${Math.min(percent as number, 100)}%` }}
-                        />
+              {/* Show distribution bars when available */}
+                {analysis.distribution && Object.keys(analysis.distribution).length <= 4 && (
+                  <div className="mt-3 space-y-1">
+                    {Object.entries(analysis.distribution).slice(0, 3).map(([key, percent]) => (
+                      <div key={key} className="flex items-center text-xs">
+                        <span className="w-16 truncate text-gray-600">{key}</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-1.5 mx-2">
+                          <div 
+                            className="bg-blue-500 h-1.5 rounded-full" 
+                            style={{ width: `${Math.min(percent as number, 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-gray-800 w-8">{percent as number}%</span>
                       </div>
-                      <span className="text-gray-800 w-8">{percent as number}%</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
             </div>
           ))}
         </div>
