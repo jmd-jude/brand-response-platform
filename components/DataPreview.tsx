@@ -338,12 +338,12 @@ export default function DataPreview({ customerData, selectedVariables, onContinu
                   ))}
                   <td className="px-4 py-4 text-sm text-gray-500">
                     <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                      customer.enrichment_source === 'email' ? 'bg-green-100 text-green-800' :
+                      customer.enrichment_source === 'sha256' ? 'bg-green-100 text-green-800' :
                       customer.enrichment_source === 'pii' ? 'bg-blue-100 text-blue-800' :
                       customer.enrichment_source === 'no_match' ? 'bg-gray-100 text-gray-800' :
                       'bg-red-100 text-red-800'
                     }`}>
-                      {customer.enrichment_source === 'email' ? 'Email' :
+                      {customer.enrichment_source === 'sha256' ? 'SHA-256 Hash' :
                        customer.enrichment_source === 'pii' ? 'Name+Location' :
                        customer.enrichment_source === 'no_match' ? 'No Match' :
                        'Error'}

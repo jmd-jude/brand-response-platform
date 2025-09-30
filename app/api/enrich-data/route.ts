@@ -9,6 +9,7 @@ interface CustomerRecord {
   first_name?: string;
   last_name?: string;
   email?: string;
+  email_hash?: string; // Support for pre-hashed emails
   city?: string;
   state?: string;
   [key: string]: any;
@@ -21,7 +22,6 @@ interface Variable {
 }
 
 // Authentication helper
-// In your enrich-data API route
 function createAuthHeader() {
   const timestamp = Date.now().toString();
   const toHash = timestamp + process.env.AA_SECRET;
@@ -93,18 +93,31 @@ function extractRelevantData(identity: any, requestedFields: string[]): any {
   return enriched;
 }
 
-// Enrich a single customer record
-// Enrich a single customer record
+// Enrich a single customer record using SHA-256
 async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariables: Variable[]): Promise<CustomerRecord> {
-  const { email, first_name, last_name, city, state } = customerData;
+  const { email, email_hash, first_name, last_name, city, state } = customerData;
   const requestedFields = selectedVariables.map(v => v.variable);
 
   try {
-    // Try email lookup first (most reliable)
-    if (email) {
-      console.log('Enrichment attempt:', { email, hasSecret: !!process.env.AA_SECRET });
+    // Try SHA-256 hash lookup (privacy-friendly, works with hashed or cleartext emails)
+    if (email || email_hash) {
+      let sha256Hash: string;
+      
+      // Use pre-hashed email if provided, otherwise hash the cleartext email
+      if (email_hash) {
+        sha256Hash = email_hash;
+        console.log('Using pre-hashed email');
+      } else if (email) {
+        sha256Hash = crypto
+          .createHash('sha256')
+          .update(email.toLowerCase().trim())
+          .digest('hex');
+        console.log('Generated SHA-256 hash from email');
+      } else {
+        throw new Error('No email or hash provided');
+      }
 
-      const url = `${process.env.AA_ORIGIN}/v2/identities/byEmail?email=${email}`;
+      const url = `${process.env.AA_ORIGIN}/v2/identities/bySha256?sha256=${sha256Hash}`;
       const response = await fetch(url, {
         headers: {
           'Authorization': createAuthHeader(),
@@ -112,7 +125,7 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
         }
       });
 
-      console.log('API Response Status:', response.status);
+      console.log('SHA-256 API Response Status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
@@ -121,16 +134,16 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
           return {
             ...customerData,
             ...enrichedFields,
-            enrichment_source: 'email'
+            enrichment_source: 'sha256'
           };
         }
       } else {
         const responseText = await response.text();
-        console.log('Raw API response:', responseText.slice(0, 500));
+        console.log('SHA-256 API error response:', responseText.slice(0, 500));
       }
     }
     
-    // Fallback to name + location if email fails
+    // Fallback to name + location if SHA-256 lookup fails or no email provided
     if (first_name && last_name && (city || state)) {
       const params = new URLSearchParams();
       if (first_name) params.append('firstName', first_name);
@@ -145,6 +158,8 @@ async function enrichCustomerRecord(customerData: CustomerRecord, selectedVariab
           'Content-Type': 'application/json'
         }
       });
+      
+      console.log('PII API Response Status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
@@ -183,7 +198,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid customer data' }, { status: 400 });
     }
 
-    console.log(`Starting enrichment for ${customerData.length} customers...`);
+    console.log(`Starting SHA-256 enrichment for ${customerData.length} customers...`);
     console.log('Selected variables:', selectedVariables.map((v: { variable: any; }) => v.variable));
     
     const results = [];
@@ -213,7 +228,7 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    console.log(`Enrichment complete: ${successCount}/${recordsToProcess.length} records enhanced`);
+    console.log(`SHA-256 enrichment complete: ${successCount}/${recordsToProcess.length} records enhanced`);
 
     return NextResponse.json({
       enrichedCustomers: results,

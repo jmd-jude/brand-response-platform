@@ -97,7 +97,7 @@ Return ONLY valid JSON:
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5-20250929',
         max_tokens: 512,
         temperature: 0.1,
         messages: [
@@ -182,7 +182,7 @@ async function aggregateCustomerData(
   businessContext: BusinessContext
 ): Promise<any> {
   const totalRecords = enrichedCustomers.length;
-  const enrichedRecords = enrichedCustomers.filter(c => c.enrichment_source === 'email' || c.enrichment_source === 'pii').length;
+  const enrichedRecords = enrichedCustomers.filter(c => c.enrichment_source === 'email' || c.enrichment_source === 'pii' || c.enrichment_source === 'sha256').length;
   
   const aggregations: any = {
     totalRecords,
@@ -580,7 +580,7 @@ export async function POST(request: NextRequest) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5-20250929',
         max_tokens: 4096,
         temperature: 0.3,
         messages: [

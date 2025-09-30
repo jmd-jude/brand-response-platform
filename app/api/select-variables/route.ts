@@ -142,6 +142,8 @@ RESPOND WITH VALID JSON ONLY (no markdown formatting):
   ]
 }
 
+CRITICAL: Return ONLY the raw JSON object. Do not wrap in markdown code blocks or backticks.
+
 Select variables that will reveal insightful and actionable insights about who this business's customers really are.`;
 }
 
@@ -239,7 +241,7 @@ export async function POST(request: NextRequest) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5-20250929',
         max_tokens: 4096,
         temperature: 0.2,
         messages: [
@@ -263,7 +265,15 @@ export async function POST(request: NextRequest) {
     // Parse JSON response
     let variables;
     try {
-      const parsed = JSON.parse(content);
+      // Clean up markdown formatting if present
+      let cleanContent = content.trim();
+      if (cleanContent.startsWith('```json')) {
+        cleanContent = cleanContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanContent.startsWith('```')) {
+        cleanContent = cleanContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      
+      const parsed = JSON.parse(cleanContent);
       variables = parsed.variables;
     } catch (parseError) {
       console.error('Error parsing AI response:', parseError);

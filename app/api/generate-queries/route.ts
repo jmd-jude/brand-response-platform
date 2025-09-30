@@ -99,6 +99,8 @@ RESPOND IN JSON FORMAT:
   }
 }
 
+CRITICAL: Return ONLY the raw JSON object. Do not wrap in markdown code blocks or backticks.
+
 Focus on queries that reference the specific patterns discovered in the data analysis. No fancy marketing speak. No AI slop.`;
 }
 
@@ -173,7 +175,7 @@ export async function POST(request: NextRequest) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5-20250929',
         max_tokens: 2048,
         temperature: 0.5,
         messages: [
@@ -201,7 +203,10 @@ export async function POST(request: NextRequest) {
       let cleanContent = content.trim();
       if (cleanContent.startsWith('```json')) {
         cleanContent = cleanContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanContent.startsWith('```')) {
+        cleanContent = cleanContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
       }
+      
       queryBuckets = JSON.parse(cleanContent);
     } catch (parseError) {
       console.error('Error parsing AI response:', parseError);

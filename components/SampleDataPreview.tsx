@@ -83,6 +83,8 @@ export default function SampleDataPreview({ onDataLoaded }: SampleDataPreviewPro
                 normalized.city = value;
               } else if (lowerKey.includes('state')) {
                 normalized.state = value;
+              } else if (lowerKey.includes('hash')) {
+                normalized.email_hash = value;  
               } else {
                 // Keep original field names for other data
                 normalized[key] = value;
