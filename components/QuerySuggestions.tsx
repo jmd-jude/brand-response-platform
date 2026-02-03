@@ -93,7 +93,7 @@ export default function QuerySuggestions({
   };
 
   const openCylyndyr = () => {
-    window.open('https://cylyndyr.streamlit.app', '_blank', 'noopener,noreferrer');
+    window.open('https://audience-builder-vert.vercel.app/', '_blank', 'noopener,noreferrer');
   };
 
   if (isLoading) {
